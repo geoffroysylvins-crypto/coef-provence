@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Vins - Vallée du Rhône</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #B89968 0%, #D4C4B4 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .card {
+            background: #F5F1ED;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #B89968;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #8B6F47;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        label {
+            display: block;
+            color: #8B6F47;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #D4C4B4;
+            border-radius: 6px;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            background: white;
+            color: #333;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #B89968;
+            box-shadow: 0 0 5px rgba(184, 153, 104, 0.3);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .coef-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .coef-btn, .cert-btn {
+            padding: 10px;
+            border: 2px solid #D4C4B4;
+            background: white;
+            color: #8B6F47;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.85em;
+        }
+
+        .coef-btn:hover, .cert-btn:hover {
+            background: #D4C4B4;
+            color: white;
+        }
+
+        .coef-btn.active, .cert-btn.active {
+            background: #B89968;
+            color: white;
+            border-color: #8B6F47;
+        }
+
+        .result-box {
+            background: #EDE5DD;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #D4C4B4;
+            margin-bottom: 10px;
+        }
+
+        .result-box .label {
+            color: #B89968;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .result-box .value {
+            color: #8B6F47;
+            font-size: 1.6em;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: #B89968;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #8B6F47;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: #D4C4B4;
+            margin: 20px 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #D4C4B4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #B89968;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍷 Calculateur de Vins - Vallée du Rhône</h1>
+
+        <!-- Sélection du vin -->
+        <div class="card">
+            <h2>📋 Sélection</h2>
+            <label for="wine-select">Vin :</label>
+            <select id="wine-select">
+                <option value="">-- Choisir un vin --</option>
+                <optgroup label="Domaine Les Aphillanthes">
+                    <option value="aph-rouge-carmin">AOP Côtes du Rhône / Rouge Carmin 2025 | 5,50€</option>
+                    <option value="aph-villages-galeta">AOP Côtes du Rhône Villages / Les Galets Plan de Dieu 2022 | 8,20€</option>
+                    <option value="aph-cairanne-ancestrale">AOP Cairanne / L'Ancestrale du Puits 2023 | 9,20€</option>
+                    <option value="aph-rasteau-1921">AOP Rasteau / Cuvée 1921 2021 | 10,20€</option>
+                    <option value="aph-gigondas-promesse">AOP Gigondas / Promesse 2022 | 13,60€</option>
+                </optgroup>
+                <optgroup label="Domaine Boisson">
+                    <option value="bois-cdz-blanc">AOP Côtes du Rhône / Côtes du Rhône Blanc 2023 | 6,55€</option>
+                    <option value="bois-cdz-rouge">AOP Côtes du Rhône / Côtes du Rhône Rouge 2023 | 5,75€</option>
+                    <option value="bois-cairanne-silice">AOP Cairanne / Silice 2024 | 9,15€</option>
+                    <option value="bois-cairanne-terroirs">AOP Cairanne / Les 3 Terroirs 2023 | 9,05€</option>
+                </optgroup>
+                <optgroup label="Domaine du Trapadis">
+                    <option value="trap-vin-france">Vin de France / Esprit 2023 | 5,50€</option>
+                    <option value="trap-ptite-blanc">AOP Côtes du Rhône / La P'tite Côte Blanc 2023 | 9,00€</option>
+                    <option value="trap-ptite-rouge">AOP Côtes du Rhône / La P'tite Côte Rouge 2024 | 6,90€</option>
+                </optgroup>
+                <optgroup label="Mas des Centenaires">
+                    <option value="mas-rive-blanc">AOP Côtes du Rhône / Rive Droite Blanc 2024 | 6,70€</option>
+                    <option value="mas-rive-rouge">AOP Côtes du Rhône / Rive Droite Rouge 2023 | 6,70€</option>
+                    <option value="mas-bergerie-blanc">IGP Pays d'Oc / Mas des Centenaires La Bergerie Blanc 2025 | 7,30€</option>
+                    <option value="mas-bergerie-rouge">IGP Pays d'Oc / Mas des Centenaires La Bergerie Rouge 2024 | 6,90€</option>
+                </optgroup>
+                <optgroup label="Epicurvins">
+                    <option value="epic-luberon-terre">AOP Luberon / Domaine Le Novi Terre de Safre 2023 | 7,90€</option>
+                    <option value="epic-luberon-soucas-blanc">AOP Luberon / Domaine Le Novi Les Soucas Blanc 2022 | 12,80€</option>
+                    <option value="epic-luberon-soucas-rouge">AOP Luberon / Domaine Le Novi Les Soucas Rouge 2021 | 13,85€</option>
+                </optgroup>
+                <optgroup label="Domaine JL Chave Sélection">
+                    <option value="chave-mon-coeur">AOP Côtes du Rhône / Mon Coeur 2024 | 6,67€</option>
+                    <option value="chave-offerus">AOP Saint-Joseph / Offerus 2024 | 13,45€</option>
+                    <option value="chave-sj-circa">AOP Saint-Joseph / Saint Joseph Circa JL Chave sélection 2024 | 13,45€</option>
+                </optgroup>
+                <optgroup label="Domaine Jocelyne & Yves LAFOY">
+                    <option value="lafoy-collines-bio">IGP Collines Rhodaniennes / Viognier "Alliance" Bio 2024 | 8,45€</option>
+                    <option value="lafoy-condrieu-bio">AOP Condrieu / "Aux Russes" Bio 2024 | 22,45€</option>
+                    <option value="lafoy-syrah-alliance">Vin de France / Syrah "Alliance" 2023 | 8,30€</option>
+                    <option value="lafoy-crozes-presence">AOP Crozes-Hermitage / "Présence" Bio 2024 | 13,35€</option>
+                    <option value="lafoy-sj-preambule">AOP Saint-Joseph / "Préambule" 2024 | 15,35€</option>
+                    <option value="lafoy-cote-rotie">AOP Côte Rotie / "Prélude" 2023 | 27,45€</option>
+                </optgroup>
+                <optgroup label="Domaine Gilles Robin">
+                    <option value="robin-collines-viognier">IGP Collines Rhodaniennes / Viognier 2024 | 8,50€</option>
+                    <option value="robin-collines-marsanne">IGP Collines Rhodaniennes / Marsanne 2025 | 7,40€</option>
+                    <option value="robin-crozes-papillon-blanc">AOP Crozes-Hermitage / Papillon Blanc 2024 | 11,70€</option>
+                    <option value="robin-crozes-papillon-rouge">AOP Crozes-Hermitage / Papillon Rouge 2024 | 11,10€</option>
+                </optgroup>
+            </select>
+
+            <label for="prix-achat">Prix d'achat HHT (€) :</label>
+            <input type="number" id="prix-achat" value="5.50" step="0.01" min="0">
+
+            <div class="grid-2">
+                <div>
+                    <label for="quantity">Nombre de bouteilles :</label>
+                    <input type="number" id="quantity" value="0" min="0">
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <button class="btn-primary" onclick="setQuantity(18)" style="background: #D4C4B4; font-size: 0.85em;">18 btl<br><small>(3 cartons)</small></button>
+                        <button class="btn-primary" onclick="setQuantity(36)" style="background: #D4C4B4; font-size: 0.85em;">36 btl<br><small>(6 cartons)</small></button>
+                        <button class="btn-primary" onclick="setQuantity(60)" style="background: #D4C4B4; font-size: 0.85em;">60 btl<br><small>(10 cartons)</small></button>
+                        <button class="btn-primary" onclick="setQuantity(120)" style="background: #D4C4B4; font-size: 0.85em;">120 btl<br><small>(20 cartons)</small></button>
+                        <button class="btn-primary" onclick="setQuantity(480)" style="background: #D4C4B4; font-size: 0.85em;">480 btl<br><small>(80 cartons)</small></button>
+                        <button class="btn-primary" onclick="setQuantity(1000)" style="background: #D4C4B4; font-size: 0.85em;">1000 btl<br><small>(~167 cartons)</small></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Résumé achat -->
+        <div class="card" id="purchase-summary" style="display:none;">
+            <h2>💰 Prix d'achat HHT</h2>
+            <div class="grid-2">
+                <div class="result-box">
+                    <div class="label">Prix unitaire HHT</div>
+                    <div class="value" id="prix-unit-hht">0,00€</div>
+                </div>
+                <div class="result-box">
+                    <div class="label">Prix total HHT</div>
+                    <div class="value" id="prix-total-hht">0,00€</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglets pour les modes de vente -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('verre')">Vente au Verre</button>
+            <button class="tab-btn" onclick="switchTab('bouteille')">A la carte</button>
+            <button class="tab-btn" onclick="switchTab('caviste')">Pour les Cavistes</button>
+        </div>
+
+        <!-- VENTE AU VERRE -->
+        <div id="tab-verre" class="tab-content active">
+            <div class="card">
+                <h2>🥂 Vente au Verre</h2>
+
+                <label>Certification :</label>
+                <div class="cert-buttons">
+                    <button class="cert-btn active" onclick="selectCertif(18.75)">18,75cl<br>4 verres</button>
+                    <button class="cert-btn" onclick="selectCertif(15)">15cl<br>5 verres</button>
+                    <button class="cert-btn" onclick="selectCertif(12.5)">12,5cl<br>6 verres</button>
+                </div>
+
+                <label>Coefficient rapide :</label>
+                <div class="coef-buttons" id="coef-verre-buttons">
+                    <button class="coef-btn active" onclick="selectCoefVerre(3)">Coef 3</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(3.5)">Coef 3.5</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(4)">Coef 4</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(4.5)">Coef 4.5</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(5)">Coef 5</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(5.5)">Coef 5.5</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(6)">Coef 6</button>
+                </div>
+
+                <div class="grid-3" style="margin-bottom: 15px;">
+                    <div class="result-box">
+                        <div class="label">Coefficient HT</div>
+                        <div class="value" id="coef-verre-hht-display">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Verre</div>
+                        <div class="value" id="benef-verre-display">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Prix de vente TTC</div>
+                        <div class="value" id="prix-verre-ttc-display">-</div>
+                    </div>
+                </div>
+
+                <label for="prix-verre-ttc">Prix de vente de la coupe TTC (€) :</label>
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
+                    <input type="number" id="prix-verre-ttc" step="0.01" min="0">
+                    <button class="btn-primary" onclick="roundUpVerre()" style="background: #D4C4B4; width: auto; padding: 10px 20px;">Arrondir à l'€</button>
+                </div>
+                <div class="result-box" style="margin-bottom: 15px; padding: 8px;">
+                    <div class="label">Prix arrondi à l'€ supérieur</div>
+                    <div class="value" id="prix-verre-rounded" style="font-size: 1.3em;">-</div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="grid-3">
+                    <div class="result-box">
+                        <div class="label">Coefficient HHT</div>
+                        <div class="value" id="coef-verre-hht">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Verre</div>
+                        <div class="value" id="benef-verre">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice Total</div>
+                        <div class="value" id="benef-verre-total">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VENTE BOUTEILLE -->
+        <div id="tab-bouteille" class="tab-content">
+            <div class="card">
+                <h2>🍾 A la carte</h2>
+
+                <label>Coefficient rapide HT :</label>
+                <div class="coef-buttons">
+                    <button class="coef-btn active" onclick="selectCoefBouteille(3)">Coef 3</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(3.5)">Coef 3.5</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(4)">Coef 4</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(4.5)">Coef 4.5</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(5)">Coef 5</button>
+                </div>
+
+                <label for="prix-bouteille-ttc">Prix de vente TTC (€) :</label>
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
+                    <input type="number" id="prix-bouteille-ttc" step="0.01" min="0">
+                    <button class="btn-primary" onclick="roundUpBouteille()" style="background: #D4C4B4; width: auto; padding: 10px 20px;">Arrondir</button>
+                </div>
+                <div class="result-box" style="margin-bottom: 15px; padding: 8px;">
+                    <div class="label">Prix arrondi à l'€ supérieur</div>
+                    <div class="value" id="prix-bouteille-rounded" style="font-size: 1.3em;">-</div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="grid-3">
+                    <div class="result-box">
+                        <div class="label">Coefficient HHT</div>
+                        <div class="value" id="coef-bouteille-hht">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Bouteille</div>
+                        <div class="value" id="benef-bouteille">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice Total</div>
+                        <div class="value" id="benef-bouteille-total">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CAVISTES -->
+        <div id="tab-caviste" class="tab-content">
+            <div class="card">
+                <h2>🏪 Pour les Cavistes</h2>
+
+                <label>Coefficient HHT :</label>
+                <div class="coef-buttons">
+                    <button class="coef-btn active" onclick="selectCoefCaviste(1.8)">Coef HHT 1.8</button>
+                    <button class="coef-btn" onclick="selectCoefCaviste(1.9)">Coef HHT 1.9</button>
+                    <button class="coef-btn" onclick="selectCoefCaviste(2.0)">Coef HHT 2.0</button>
+                </div>
+
+                <label for="prix-caviste-ttc">Prix de vente TTC (€) :</label>
+                <input type="number" id="prix-caviste-ttc" step="0.01" min="0">
+
+                <div class="section-divider"></div>
+
+                <div class="grid-3">
+                    <div class="result-box">
+                        <div class="label">Prix de vente TTC</div>
+                        <div class="value" id="prix-caviste-display">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Bouteille</div>
+                        <div class="value" id="benef-caviste">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice Total</div>
+                        <div class="value" id="benef-caviste-total">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wines = {
+            'aph-rouge-carmin': { name: 'AOP Côtes du Rhône / Rouge Carmin 2025', prix36: 5.50, prix60: 5.30, prix120: 4.90 },
+            'aph-villages-galeta': { name: 'AOP Côtes du Rhône Villages / Les Galets Plan de Dieu 2022', prix36: 8.20, prix60: 7.90, prix120: 7.35 },
+            'aph-cairanne-ancestrale': { name: 'AOP Cairanne / L\'Ancestrale du Puits 2023', prix36: 9.20, prix60: 8.85, prix120: 8.30 },
+            'aph-rasteau-1921': { name: 'AOP Rasteau / Cuvée 1921 2021', prix36: 10.20, prix60: 9.80, prix120: 9.20 },
+            'aph-gigondas-promesse': { name: 'AOP Gigondas / Promesse 2022', prix36: 13.60, prix60: 13.00, prix120: 12.30 },
+            'bois-cdz-blanc': { name: 'AOP Côtes du Rhône / Côtes du Rhône Blanc 2023', prix36: 6.55, prix60: 6.20, prix120: 6.05 },
+            'bois-cdz-rouge': { name: 'AOP Côtes du Rhône / Côtes du Rhône Rouge 2023', prix36: 5.75, prix60: 5.40, prix120: 5.25 },
+            'bois-cairanne-silice': { name: 'AOP Cairanne / Silice 2024', prix36: 9.15, prix60: 8.80, prix120: 8.65 },
+            'bois-cairanne-terroirs': { name: 'AOP Cairanne / Les 3 Terroirs 2023', prix36: 9.05, prix60: 8.70, prix120: 8.55 },
+            'trap-vin-france': { name: 'Vin de France / Esprit 2023', prix36: 5.50, prix60: 4.80, prix120: 4.50 },
+            'trap-ptite-blanc': { name: 'AOP Côtes du Rhône / La P\'tite Côte Blanc 2023', prix36: 9.00, prix60: 8.30, prix120: 8.00 },
+            'trap-ptite-rouge': { name: 'AOP Côtes du Rhône / La P\'tite Côte Rouge 2024', prix36: 6.90, prix60: 6.20, prix120: 5.90 },
+            'mas-rive-blanc': { name: 'AOP Côtes du Rhône / Rive Droite Blanc 2024', prix36: 6.70, prix60: 5.80, prix120: 5.40 },
+            'mas-rive-rouge': { name: 'AOP Côtes du Rhône / Rive Droite Rouge 2023', prix36: 6.70, prix60: 5.80, prix120: 5.40 },
+            'mas-bergerie-blanc': { name: 'IGP Pays d\'Oc / Mas des Centenaires La Bergerie Blanc 2025', prix36: 7.30, prix60: 6.30, prix120: 5.90 },
+            'mas-bergerie-rouge': { name: 'IGP Pays d\'Oc / Mas des Centenaires La Bergerie Rouge 2024', prix36: 6.90, prix60: 5.90, prix120: 5.40 },
+            'epic-luberon-terre': { name: 'AOP Luberon / Domaine Le Novi Terre de Safre 2023', prix36: 7.90, prix60: null, prix120: null },
+            'epic-luberon-soucas-blanc': { name: 'AOP Luberon / Domaine Le Novi Les Soucas Blanc 2022', prix36: 12.80, prix60: null, prix120: null },
+            'epic-luberon-soucas-rouge': { name: 'AOP Luberon / Domaine Le Novi Les Soucas Rouge 2021', prix36: 13.85, prix60: null, prix120: null },
+            'chave-mon-coeur': { name: 'AOP Côtes du Rhône / Mon Coeur 2024', prix36: 6.67, prix60: null, prix120: null },
+            'chave-offerus': { name: 'AOP Saint-Joseph / Offerus 2024', prix36: 13.45, prix60: null, prix120: null },
+            'chave-sj-circa': { name: 'AOP Saint-Joseph / Saint Joseph Circa JL Chave sélection 2024', prix36: 13.45, prix60: null, prix120: null },
+            'lafoy-collines-bio': { name: 'IGP Collines Rhodaniennes / Viognier "Alliance" Bio 2024', prix36: 8.45, prix60: 7.95, prix120: 7.60 },
+            'lafoy-condrieu-bio': { name: 'AOP Condrieu / "Aux Russes" Bio 2024', prix36: 22.45, prix60: 21.95, prix120: 21.60 },
+            'lafoy-syrah-alliance': { name: 'Vin de France / Syrah "Alliance" 2023', prix36: 8.30, prix60: 7.80, prix120: 7.45 },
+            'lafoy-crozes-presence': { name: 'AOP Crozes-Hermitage / "Présence" Bio 2024', prix36: 13.35, prix60: 12.85, prix120: 12.50 },
+            'lafoy-sj-preambule': { name: 'AOP Saint-Joseph / "Préambule" 2024', prix36: 15.35, prix60: 14.85, prix120: 14.50 },
+            'lafoy-cote-rotie': { name: 'AOP Côte Rotie / "Prélude" 2023', prix36: 27.45, prix60: 29.95, prix120: 26.60 },
+            'robin-collines-viognier': { name: 'IGP Collines Rhodaniennes / Viognier 2024', prix36: 8.50, prix60: null, prix120: null },
+            'robin-collines-marsanne': { name: 'IGP Collines Rhodaniennes / Marsanne 2025', prix36: 7.40, prix60: null, prix120: null },
+            'robin-crozes-papillon-blanc': { name: 'AOP Crozes-Hermitage / Papillon Blanc 2024', prix36: 11.70, prix60: null, prix120: null },
+            'robin-crozes-papillon-rouge': { name: 'AOP Crozes-Hermitage / Papillon Rouge 2024', prix36: 11.10, prix60: null, prix120: null }
+        };
+
+        let currentCertif = 18.75;
+        let currentCoefVerre = 3;
+        let currentCoefBouteille = 3;
+        let currentCoefCaviste = 1.8;
+        let userSetPriceVerre = false;
+        let userSetPriceBouteille = false;
+
+        function getPrixByQuantity(wine, qty) {
+            if (qty <= 36 || !wine.prix60) return wine.prix36;
+            if (qty <= 60 || !wine.prix120) return wine.prix60;
+            return wine.prix120;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCertif(value) {
+            currentCertif = value;
+            userSetPriceVerre = false;
+            document.querySelectorAll('.cert-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCoefVerre(value) {
+            currentCoefVerre = value;
+            userSetPriceVerre = false;
+            document.querySelectorAll('#coef-verre-buttons .coef-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCoefBouteille(value) {
+            currentCoefBouteille = value;
+            userSetPriceBouteille = false;
+            event.target.parentElement.querySelectorAll('.coef-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCoefCaviste(value) {
+            currentCoefCaviste = value;
+            event.target.parentElement.querySelectorAll('.coef-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function roundUpVerre() {
+            const input = document.getElementById('prix-verre-ttc');
+            const currentValue = parseFloat(input.value) || 0;
+            const rounded = Math.ceil(currentValue);
+            input.value = rounded.toFixed(2);
+            calculate();
+        }
+
+        function roundUpBouteille() {
+            const input = document.getElementById('prix-bouteille-ttc');
+            const currentValue = parseFloat(input.value) || 0;
+            const rounded = Math.ceil(currentValue);
+            input.value = rounded.toFixed(2);
+            calculate();
+        }
+
+        function calculate() {
+            const wineSelect = document.getElementById('wine-select');
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            const prixAchat = parseFloat(document.getElementById('prix-achat').value) || 0;
+            const tva = 20;
+
+            if (!wineSelect.value || quantity === 0 || prixAchat === 0) {
+                document.getElementById('purchase-summary').style.display = 'none';
+                return;
+            }
+
+            const prixTTC = prixAchat * (1 + tva / 100);
+            const prixTotalHHT = prixAchat * quantity;
+            const prixTotalTTC = prixTTC * quantity;
+
+            document.getElementById('prix-unit-hht').textContent = prixAchat.toFixed(2) + '€';
+            document.getElementById('prix-total-hht').textContent = prixTotalHHT.toFixed(2) + '€';
+            document.getElementById('purchase-summary').style.display = 'block';
+
+            // Vente au verre
+            const verresParBouteille = 75 / currentCertif;
+            const prixVerreTTC = parseFloat(document.getElementById('prix-verre-ttc').value) || 0;
+            const prixVerreHHT = prixVerreTTC / (1 + tva / 100);
+            const coutVerre = prixAchat / verresParBouteille;
+            const coefVerreHHT = coutVerre > 0 ? (prixVerreHHT / coutVerre).toFixed(2) : '-';
+            const benefVerre = prixVerreHHT - coutVerre;
+            const benefVerreTotal = benefVerre * verresParBouteille * quantity;
+
+            document.getElementById('coef-verre-hht').textContent = coefVerreHHT;
+            document.getElementById('benef-verre').textContent = benefVerre.toFixed(2) + '€';
+            document.getElementById('benef-verre-total').textContent = benefVerreTotal.toFixed(2) + '€';
+
+            // Afficher le prix arrondi à l'euro supérieur
+            const prixVerreRounded = Math.ceil(prixVerreTTC);
+            document.getElementById('prix-verre-rounded').textContent = prixVerreRounded.toFixed(2) + '€';
+
+            // Mise à jour auto prix verre (sauf si utilisateur a saisi manuellement)
+            let prixVerreAutoTTC = 0;
+            if (currentCoefVerre > 0 && !userSetPriceVerre) {
+                const coutVerreAuto = prixAchat / verresParBouteille;
+                const prixVerreAutoHHT = coutVerreAuto * currentCoefVerre;
+                prixVerreAutoTTC = prixVerreAutoHHT * (1 + tva / 100);
+                document.getElementById('prix-verre-ttc').value = prixVerreAutoTTC.toFixed(2);
+            } else {
+                prixVerreAutoTTC = prixVerreTTC;
+            }
+
+            // Afficher les encadrés du coefficient, bénéfice et prix TTC calculés
+            const coutVerreForDisplay = prixAchat / verresParBouteille;
+            const prixVerreAutoHHTForDisplay = coutVerreForDisplay * currentCoefVerre;
+            const coefVerreForDisplay = (prixVerreAutoHHTForDisplay / coutVerreForDisplay).toFixed(2);
+            const benefVerreForDisplay = prixVerreAutoHHTForDisplay - coutVerreForDisplay;
+
+            document.getElementById('coef-verre-hht-display').textContent = coefVerreForDisplay;
+            document.getElementById('benef-verre-display').textContent = benefVerreForDisplay.toFixed(2) + '€';
+            document.getElementById('prix-verre-ttc-display').textContent = prixVerreAutoTTC.toFixed(2) + '€';
+
+            // Vente bouteille
+            const prixBouteilleTTC = parseFloat(document.getElementById('prix-bouteille-ttc').value) || 0;
+            const prixBouteilleHHT = prixBouteilleTTC / (1 + tva / 100);
+            const coefBouteilleHHT = prixAchat > 0 ? (prixBouteilleHHT / prixAchat).toFixed(2) : '-';
+            const benefBouteille = prixBouteilleHHT - prixAchat;
+            const benefBouteilleTotal = benefBouteille * quantity;
+
+            document.getElementById('coef-bouteille-hht').textContent = coefBouteilleHHT;
+            document.getElementById('benef-bouteille').textContent = benefBouteille.toFixed(2) + '€';
+            document.getElementById('benef-bouteille-total').textContent = benefBouteilleTotal.toFixed(2) + '€';
+
+            // Afficher le prix arrondi à l'euro supérieur
+            const prixBouteilleRounded = Math.ceil(prixBouteilleTTC);
+            document.getElementById('prix-bouteille-rounded').textContent = prixBouteilleRounded.toFixed(2) + '€';
+
+            // Mise à jour auto prix bouteille (sauf si utilisateur a saisi manuellement)
+            if (currentCoefBouteille > 0 && !userSetPriceBouteille) {
+                const prixBouteilleAutoHHT = prixAchat * currentCoefBouteille;
+                const prixBouteilleAutoTTC = prixBouteilleAutoHHT * (1 + tva / 100);
+                document.getElementById('prix-bouteille-ttc').value = prixBouteilleAutoTTC.toFixed(2);
+            }
+
+            // Cavistes
+            const prixCavisteTTC = parseFloat(document.getElementById('prix-caviste-ttc').value) || 0;
+            const prixCavisteHHT = prixCavisteTTC / (1 + tva / 100);
+            const benefCaviste = prixCavisteHHT - prixAchat;
+            const benefCavisteTotal = benefCaviste * quantity;
+
+            document.getElementById('prix-caviste-display').textContent = prixCavisteTTC.toFixed(2) + '€';
+            document.getElementById('benef-caviste').textContent = benefCaviste.toFixed(2) + '€';
+            document.getElementById('benef-caviste-total').textContent = benefCavisteTotal.toFixed(2) + '€';
+
+            // Mise à jour auto prix caviste
+            if (currentCoefCaviste > 0) {
+                const prixCavisteAutoHHT = prixAchat * currentCoefCaviste;
+                const prixCavisteAutoTTC = prixCavisteAutoHHT * (1 + tva / 100);
+                document.getElementById('prix-caviste-ttc').value = prixCavisteAutoTTC.toFixed(2);
+            }
+        }
+
+        function setQuantity(qty) {
+            document.getElementById('quantity').value = qty;
+            calculate();
+        }
+
+        document.getElementById('wine-select').addEventListener('change', function() {
+            if (this.value) {
+                const wine = wines[this.value];
+                document.getElementById('prix-achat').value = wine.prix36.toFixed(2);
+                userSetPriceVerre = false;
+                userSetPriceBouteille = false;
+                calculate();
+            }
+        });
+
+        document.getElementById('prix-achat').addEventListener('input', function() {
+            userSetPriceVerre = false;
+            userSetPriceBouteille = false;
+            calculate();
+        });
+        document.getElementById('quantity').addEventListener('input', function() {
+            userSetPriceVerre = false;
+            userSetPriceBouteille = false;
+            calculate();
+        });
+        document.getElementById('prix-verre-ttc').addEventListener('input', function() {
+            userSetPriceVerre = true;
+            calculate();
+        });
+        document.getElementById('prix-bouteille-ttc').addEventListener('input', function() {
+            userSetPriceBouteille = true;
+            calculate();
+        });
+        document.getElementById('prix-caviste-ttc').addEventListener('input', calculate);
+    </script>
+</body>
+</html>
