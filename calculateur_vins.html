@@ -316,6 +316,21 @@
                     <button class="coef-btn" onclick="selectCoefVerre(6)">Coef 6</button>
                 </div>
 
+                <div class="grid-3" style="margin-bottom: 15px;">
+                    <div class="result-box">
+                        <div class="label">Coefficient HT</div>
+                        <div class="value" id="coef-verre-hht-display">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Verre</div>
+                        <div class="value" id="benef-verre-display">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Prix de vente TTC</div>
+                        <div class="value" id="prix-verre-ttc-display">-</div>
+                    </div>
+                </div>
+
                 <label for="prix-verre-ttc">Prix de vente de la coupe TTC (€) :</label>
                 <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
                     <input type="number" id="prix-verre-ttc" step="0.01" min="0">
@@ -551,12 +566,25 @@
             document.getElementById('prix-verre-rounded').textContent = prixVerreRounded.toFixed(2) + '€';
 
             // Mise à jour auto prix verre (sauf si utilisateur a saisi manuellement)
+            let prixVerreAutoTTC = 0;
             if (currentCoefVerre > 0 && !userSetPriceVerre) {
                 const coutVerreAuto = prixAchat / verresParBouteille;
                 const prixVerreAutoHHT = coutVerreAuto * currentCoefVerre;
-                const prixVerreAutoTTC = prixVerreAutoHHT * (1 + tva / 100);
+                prixVerreAutoTTC = prixVerreAutoHHT * (1 + tva / 100);
                 document.getElementById('prix-verre-ttc').value = prixVerreAutoTTC.toFixed(2);
+            } else {
+                prixVerreAutoTTC = prixVerreTTC;
             }
+
+            // Afficher les encadrés du coefficient, bénéfice et prix TTC calculés
+            const coutVerreForDisplay = prixAchat / verresParBouteille;
+            const prixVerreAutoHHTForDisplay = coutVerreForDisplay * currentCoefVerre;
+            const coefVerreForDisplay = (prixVerreAutoHHTForDisplay / coutVerreForDisplay).toFixed(2);
+            const benefVerreForDisplay = prixVerreAutoHHTForDisplay - coutVerreForDisplay;
+
+            document.getElementById('coef-verre-hht-display').textContent = coefVerreForDisplay;
+            document.getElementById('benef-verre-display').textContent = benefVerreForDisplay.toFixed(2) + '€';
+            document.getElementById('prix-verre-ttc-display').textContent = prixVerreAutoTTC.toFixed(2) + '€';
 
             // Vente bouteille
             const prixBouteilleTTC = parseFloat(document.getElementById('prix-bouteille-ttc').value) || 0;
