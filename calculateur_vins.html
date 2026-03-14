@@ -310,7 +310,10 @@
                 </div>
 
                 <label for="prix-verre-ttc">Prix de vente de la coupe TTC (€) :</label>
-                <input type="number" id="prix-verre-ttc" step="0.01" min="0">
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
+                    <input type="number" id="prix-verre-ttc" step="0.01" min="0">
+                    <button class="btn-primary" onclick="roundUpVerre()" style="background: #D4A574; width: auto; padding: 10px 20px;">Arrondir</button>
+                </div>
 
                 <div class="section-divider"></div>
 
@@ -346,7 +349,10 @@
                 </div>
 
                 <label for="prix-bouteille-ttc">Prix de vente TTC (€) :</label>
-                <input type="number" id="prix-bouteille-ttc" step="0.01" min="0">
+                <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
+                    <input type="number" id="prix-bouteille-ttc" step="0.01" min="0">
+                    <button class="btn-primary" onclick="roundUpBouteille()" style="background: #D4A574; width: auto; padding: 10px 20px;">Arrondir</button>
+                </div>
 
                 <div class="section-divider"></div>
 
@@ -469,6 +475,22 @@
             currentCoefCaviste = value;
             event.target.parentElement.querySelectorAll('.coef-btn').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
+            calculate();
+        }
+
+        function roundUpVerre() {
+            const input = document.getElementById('prix-verre-ttc');
+            const currentValue = parseFloat(input.value) || 0;
+            const rounded = Math.ceil(currentValue);
+            input.value = rounded.toFixed(2);
+            calculate();
+        }
+
+        function roundUpBouteille() {
+            const input = document.getElementById('prix-bouteille-ttc');
+            const currentValue = parseFloat(input.value) || 0;
+            const rounded = Math.ceil(currentValue);
+            input.value = rounded.toFixed(2);
             calculate();
         }
 
