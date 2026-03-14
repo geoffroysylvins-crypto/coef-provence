@@ -321,6 +321,10 @@
                     <input type="number" id="prix-verre-ttc" step="0.01" min="0">
                     <button class="btn-primary" onclick="roundUpVerre()" style="background: #A8B8A8; width: auto; padding: 10px 20px;">Arrondir à l'€</button>
                 </div>
+                <div class="result-box" style="margin-bottom: 15px; padding: 8px;">
+                    <div class="label">Prix arrondi à l'€ supérieur</div>
+                    <div class="value" id="prix-verre-rounded" style="font-size: 1.3em;">-</div>
+                </div>
 
                 <div class="section-divider"></div>
 
@@ -359,6 +363,10 @@
                 <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
                     <input type="number" id="prix-bouteille-ttc" step="0.01" min="0">
                     <button class="btn-primary" onclick="roundUpBouteille()" style="background: #A8B8A8; width: auto; padding: 10px 20px;">Arrondir</button>
+                </div>
+                <div class="result-box" style="margin-bottom: 15px; padding: 8px;">
+                    <div class="label">Prix arrondi à l'€ supérieur</div>
+                    <div class="value" id="prix-bouteille-rounded" style="font-size: 1.3em;">-</div>
                 </div>
 
                 <div class="section-divider"></div>
@@ -538,6 +546,10 @@
             document.getElementById('benef-verre').textContent = benefVerre.toFixed(2) + '€';
             document.getElementById('benef-verre-total').textContent = benefVerreTotal.toFixed(2) + '€';
 
+            // Afficher le prix arrondi à l'euro supérieur
+            const prixVerreRounded = Math.ceil(prixVerreTTC);
+            document.getElementById('prix-verre-rounded').textContent = prixVerreRounded.toFixed(2) + '€';
+
             // Mise à jour auto prix verre (sauf si utilisateur a saisi manuellement)
             if (currentCoefVerre > 0 && !userSetPriceVerre) {
                 const coutVerreAuto = prixAchat / verresParBouteille;
@@ -556,6 +568,10 @@
             document.getElementById('coef-bouteille-hht').textContent = coefBouteilleHHT;
             document.getElementById('benef-bouteille').textContent = benefBouteille.toFixed(2) + '€';
             document.getElementById('benef-bouteille-total').textContent = benefBouteilleTotal.toFixed(2) + '€';
+
+            // Afficher le prix arrondi à l'euro supérieur
+            const prixBouteilleRounded = Math.ceil(prixBouteilleTTC);
+            document.getElementById('prix-bouteille-rounded').textContent = prixBouteilleRounded.toFixed(2) + '€';
 
             // Mise à jour auto prix bouteille (sauf si utilisateur a saisi manuellement)
             if (currentCoefBouteille > 0 && !userSetPriceBouteille) {
