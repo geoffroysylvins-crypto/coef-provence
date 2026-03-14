@@ -514,11 +514,12 @@
             document.getElementById('purchase-summary').style.display = 'block';
 
             // Vente au verre
-            const verresParBouteille = 750 / currentCertif;
+            const verresParBouteille = 75 / currentCertif;
             const prixVerreTTC = parseFloat(document.getElementById('prix-verre-ttc').value) || 0;
             const prixVerreHHT = prixVerreTTC / (1 + tva / 100);
-            const coefVerreHHT = prixAchat > 0 ? (prixVerreHHT / prixAchat).toFixed(2) : '-';
-            const benefVerre = prixVerreHHT - prixAchat;
+            const coutVerre = prixAchat / verresParBouteille;
+            const coefVerreHHT = coutVerre > 0 ? (prixVerreHHT / coutVerre).toFixed(2) : '-';
+            const benefVerre = prixVerreHHT - coutVerre;
             const benefVerreTotal = benefVerre * verresParBouteille * quantity;
 
             document.getElementById('coef-verre-hht').textContent = coefVerreHHT;
@@ -527,7 +528,8 @@
 
             // Mise à jour auto prix verre
             if (currentCoefVerre > 0) {
-                const prixVerreAutoHHT = prixAchat * currentCoefVerre;
+                const coutVerreAuto = prixAchat / verresParBouteille;
+                const prixVerreAutoHHT = coutVerreAuto * currentCoefVerre;
                 const prixVerreAutoTTC = prixVerreAutoHHT * (1 + tva / 100);
                 document.getElementById('prix-verre-ttc').value = prixVerreAutoTTC.toFixed(2);
             }
