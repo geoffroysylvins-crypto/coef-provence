@@ -662,7 +662,9 @@
         document.getElementById('wine-select').addEventListener('change', function() {
             if (this.value) {
                 const wine = wines[this.value];
-                document.getElementById('prix-achat').value = wine.prix36.toFixed(2);
+                const qty = parseInt(document.getElementById('quantity').value) || 36;
+                const prix = getPrixByQuantity(wine, qty);
+                document.getElementById('prix-achat').value = prix.toFixed(2);
                 userSetPriceVerre = false;
                 userSetPriceBouteille = false;
                 calculate();
@@ -675,6 +677,13 @@
             calculate();
         });
         document.getElementById('quantity').addEventListener('input', function() {
+            const wineSelect = document.getElementById('wine-select');
+            if (wineSelect.value) {
+                const wine = wines[wineSelect.value];
+                const qty = parseInt(this.value) || 36;
+                const prix = getPrixByQuantity(wine, qty);
+                document.getElementById('prix-achat').value = prix.toFixed(2);
+            }
             userSetPriceVerre = false;
             userSetPriceBouteille = false;
             calculate();
