@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #8B7355 0%, #D4A574 100%);
+            background: linear-gradient(135deg, #6B8E7E 0%, #A8B8A8 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -32,23 +32,23 @@
         }
 
         .card {
-            background: #F5E6D3;
+            background: #EBE8E3;
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 20px;
-            border-left: 5px solid #8B7355;
+            border-left: 5px solid #6B8E7E;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .card h2 {
-            color: #5C4033;
+            color: #4A5E52;
             margin-bottom: 20px;
             font-size: 1.5em;
         }
 
         label {
             display: block;
-            color: #5C4033;
+            color: #4A5E52;
             font-weight: 600;
             margin-bottom: 8px;
             font-size: 0.95em;
@@ -57,7 +57,7 @@
         select, input[type="number"], input[type="text"] {
             width: 100%;
             padding: 10px;
-            border: 2px solid #D4A574;
+            border: 2px solid #A8B8A8;
             border-radius: 6px;
             font-size: 0.95em;
             margin-bottom: 12px;
@@ -67,8 +67,8 @@
 
         select:focus, input:focus {
             outline: none;
-            border-color: #8B7355;
-            box-shadow: 0 0 5px rgba(139, 115, 85, 0.3);
+            border-color: #6B8E7E;
+            box-shadow: 0 0 5px rgba(107, 142, 126, 0.3);
         }
 
         .grid-2 {
@@ -101,9 +101,9 @@
 
         .coef-btn, .cert-btn {
             padding: 10px;
-            border: 2px solid #D4A574;
+            border: 2px solid #A8B8A8;
             background: white;
-            color: #5C4033;
+            color: #4A5E52;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
@@ -112,40 +112,40 @@
         }
 
         .coef-btn:hover, .cert-btn:hover {
-            background: #D4A574;
+            background: #A8B8A8;
             color: white;
         }
 
         .coef-btn.active, .cert-btn.active {
-            background: #8B7355;
+            background: #6B8E7E;
             color: white;
-            border-color: #5C4033;
+            border-color: #4A5E52;
         }
 
         .result-box {
-            background: #E8D4B8;
+            background: #D9E3DC;
             padding: 15px;
             border-radius: 6px;
             text-align: center;
-            border: 1px solid #D4A574;
+            border: 1px solid #A8B8A8;
             margin-bottom: 10px;
         }
 
         .result-box .label {
-            color: #8B7355;
+            color: #6B8E7E;
             font-weight: 600;
             font-size: 0.85em;
             margin-bottom: 5px;
         }
 
         .result-box .value {
-            color: #5C4033;
+            color: #4A5E52;
             font-size: 1.6em;
             font-weight: bold;
         }
 
         .btn-primary {
-            background: #8B7355;
+            background: #6B8E7E;
             color: white;
             padding: 12px 24px;
             border: none;
@@ -157,13 +157,13 @@
         }
 
         .btn-primary:hover {
-            background: #5C4033;
+            background: #4A5E52;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .section-divider {
             height: 1px;
-            background: #D4A574;
+            background: #A8B8A8;
             margin: 20px 0;
         }
 
@@ -176,7 +176,7 @@
 
         .tab-btn {
             padding: 10px 20px;
-            background: #D4A574;
+            background: #A8B8A8;
             color: white;
             border: none;
             border-radius: 6px;
@@ -186,7 +186,7 @@
         }
 
         .tab-btn.active {
-            background: #8B7355;
+            background: #6B8E7E;
         }
 
         .tab-content {
@@ -260,8 +260,8 @@
                 <div>
                     <label>&nbsp;</label>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <button class="btn-primary" onclick="setQuantity(36)" style="background: #D4A574;">36 btl</button>
-                        <button class="btn-primary" onclick="setQuantity(120)" style="background: #D4A574;">120 btl</button>
+                        <button class="btn-primary" onclick="setQuantity(36)" style="background: #A8B8A8;">36 btl</button>
+                        <button class="btn-primary" onclick="setQuantity(120)" style="background: #A8B8A8;">120 btl</button>
                     </div>
                 </div>
             </div>
@@ -312,7 +312,7 @@
                 <label for="prix-verre-ttc">Prix de vente de la coupe TTC (€) :</label>
                 <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
                     <input type="number" id="prix-verre-ttc" step="0.01" min="0">
-                    <button class="btn-primary" onclick="roundUpVerre()" style="background: #D4A574; width: auto; padding: 10px 20px;">Arrondir</button>
+                    <button class="btn-primary" onclick="roundUpVerre()" style="background: #A8B8A8; width: auto; padding: 10px 20px;">Arrondir</button>
                 </div>
 
                 <div class="section-divider"></div>
@@ -351,7 +351,7 @@
                 <label for="prix-bouteille-ttc">Prix de vente TTC (€) :</label>
                 <div style="display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 12px;">
                     <input type="number" id="prix-bouteille-ttc" step="0.01" min="0">
-                    <button class="btn-primary" onclick="roundUpBouteille()" style="background: #D4A574; width: auto; padding: 10px 20px;">Arrondir</button>
+                    <button class="btn-primary" onclick="roundUpBouteille()" style="background: #A8B8A8; width: auto; padding: 10px 20px;">Arrondir</button>
                 </div>
 
                 <div class="section-divider"></div>
