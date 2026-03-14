@@ -442,6 +442,8 @@
         let currentCoefVerre = 3;
         let currentCoefBouteille = 3;
         let currentCoefCaviste = 1.8;
+        let userSetPriceVerre = false;
+        let userSetPriceBouteille = false;
 
         function getPrixByQuantity(wine, qty) {
             if (qty <= 36 || !wine.prix60) return wine.prix36;
@@ -459,6 +461,7 @@
 
         function selectCertif(value) {
             currentCertif = value;
+            userSetPriceVerre = false;
             document.querySelectorAll('.cert-btn').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
             calculate();
@@ -466,6 +469,7 @@
 
         function selectCoefVerre(value) {
             currentCoefVerre = value;
+            userSetPriceVerre = false;
             document.querySelectorAll('#coef-verre-buttons .coef-btn').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
             calculate();
@@ -473,6 +477,7 @@
 
         function selectCoefBouteille(value) {
             currentCoefBouteille = value;
+            userSetPriceBouteille = false;
             event.target.parentElement.querySelectorAll('.coef-btn').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
             calculate();
@@ -533,8 +538,8 @@
             document.getElementById('benef-verre').textContent = benefVerre.toFixed(2) + '€';
             document.getElementById('benef-verre-total').textContent = benefVerreTotal.toFixed(2) + '€';
 
-            // Mise à jour auto prix verre
-            if (currentCoefVerre > 0) {
+            // Mise à jour auto prix verre (sauf si utilisateur a saisi manuellement)
+            if (currentCoefVerre > 0 && !userSetPriceVerre) {
                 const coutVerreAuto = prixAchat / verresParBouteille;
                 const prixVerreAutoHHT = coutVerreAuto * currentCoefVerre;
                 const prixVerreAutoTTC = prixVerreAutoHHT * (1 + tva / 100);
@@ -552,8 +557,8 @@
             document.getElementById('benef-bouteille').textContent = benefBouteille.toFixed(2) + '€';
             document.getElementById('benef-bouteille-total').textContent = benefBouteilleTotal.toFixed(2) + '€';
 
-            // Mise à jour auto prix bouteille
-            if (currentCoefBouteille > 0) {
+            // Mise à jour auto prix bouteille (sauf si utilisateur a saisi manuellement)
+            if (currentCoefBouteille > 0 && !userSetPriceBouteille) {
                 const prixBouteilleAutoHHT = prixAchat * currentCoefBouteille;
                 const prixBouteilleAutoTTC = prixBouteilleAutoHHT * (1 + tva / 100);
                 document.getElementById('prix-bouteille-ttc').value = prixBouteilleAutoTTC.toFixed(2);
@@ -586,14 +591,30 @@
             if (this.value) {
                 const wine = wines[this.value];
                 document.getElementById('prix-achat').value = wine.prix36.toFixed(2);
+                userSetPriceVerre = false;
+                userSetPriceBouteille = false;
                 calculate();
             }
         });
 
-        document.getElementById('prix-achat').addEventListener('input', calculate);
-        document.getElementById('quantity').addEventListener('input', calculate);
-        document.getElementById('prix-verre-ttc').addEventListener('input', calculate);
-        document.getElementById('prix-bouteille-ttc').addEventListener('input', calculate);
+        document.getElementById('prix-achat').addEventListener('input', function() {
+            userSetPriceVerre = false;
+            userSetPriceBouteille = false;
+            calculate();
+        });
+        document.getElementById('quantity').addEventListener('input', function() {
+            userSetPriceVerre = false;
+            userSetPriceBouteille = false;
+            calculate();
+        });
+        document.getElementById('prix-verre-ttc').addEventListener('input', function() {
+            userSetPriceVerre = true;
+            calculate();
+        });
+        document.getElementById('prix-bouteille-ttc').addEventListener('input', function() {
+            userSetPriceBouteille = true;
+            calculate();
+        });
         document.getElementById('prix-caviste-ttc').addEventListener('input', calculate);
     </script>
 </body>
