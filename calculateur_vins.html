@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur de Vins</title>
+    <title>Calculateur de Vins - Marges & Coefficients</title>
     <style>
         * {
             margin: 0;
@@ -19,52 +19,49 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: #F5E6D3;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
         h1 {
-            color: #5C4033;
+            color: white;
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #8B7355;
             margin-bottom: 30px;
-            font-style: italic;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .card {
-            background: white;
+            background: #F5E6D3;
             border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 25px;
+            padding: 25px;
+            margin-bottom: 20px;
             border-left: 5px solid #8B7355;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #5C4033;
+            margin-bottom: 20px;
+            font-size: 1.5em;
         }
 
         label {
             display: block;
             color: #5C4033;
             font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-size: 0.95em;
         }
 
-        select, input {
+        select, input[type="number"], input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 2px solid #D4A574;
-            border-radius: 8px;
-            font-size: 1em;
-            margin-bottom: 15px;
-            background: #FFFBF7;
+            border-radius: 6px;
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            background: white;
             color: #333;
         }
 
@@ -74,117 +71,147 @@
             box-shadow: 0 0 5px rgba(139, 115, 85, 0.3);
         }
 
-        .price-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .price-box {
-            background: #F0E6D2;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .price-box strong {
-            color: #5C4033;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .price-value {
-            color: #8B7355;
-            font-size: 1.8em;
-            font-weight: bold;
-        }
-
-        .buttons-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .qty-btn {
-            padding: 12px;
-            border: none;
-            background: #D4A574;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.95em;
-        }
-
-        .qty-btn:hover {
-            background: #8B7355;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .result {
-            background: #E8D4B8;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            border: 2px solid #8B7355;
-        }
-
-        .result h3 {
-            color: #5C4033;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-
-        .result-item {
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: 6px;
+            margin-bottom: 15px;
         }
 
-        .result-label {
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .coef-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .coef-btn, .cert-btn {
+            padding: 10px;
+            border: 2px solid #D4A574;
+            background: white;
+            color: #5C4033;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.85em;
+        }
+
+        .coef-btn:hover, .cert-btn:hover {
+            background: #D4A574;
+            color: white;
+        }
+
+        .coef-btn.active, .cert-btn.active {
+            background: #8B7355;
+            color: white;
+            border-color: #5C4033;
+        }
+
+        .result-box {
+            background: #E8D4B8;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #D4A574;
+            margin-bottom: 10px;
+        }
+
+        .result-box .label {
             color: #8B7355;
             font-weight: 600;
-            text-align: left;
+            font-size: 0.85em;
+            margin-bottom: 5px;
         }
 
-        .result-value {
+        .result-box .value {
             color: #5C4033;
-            font-size: 1.4em;
+            font-size: 1.6em;
             font-weight: bold;
-            text-align: right;
         }
 
-        .total-price {
-            font-size: 1.8em !important;
-            color: #8B7355 !important;
+        .btn-primary {
+            background: #8B7355;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
         }
 
-        .wine-details {
-            background: #F0E6D2;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 0.95em;
-            color: #5C4033;
+        .btn-primary:hover {
+            background: #5C4033;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: #D4A574;
+            margin: 20px 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #D4A574;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #8B7355;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🍷 Calculateur de Vins</h1>
-        <p class="subtitle">Sylvins - Professionnels</p>
+        <h1>🍷 Calculateur de Vins - Marges & Coefficients</h1>
 
+        <!-- Sélection du vin -->
         <div class="card">
-            <label for="wine-select">Sélectionnez un vin :</label>
+            <h2>📋 Sélection</h2>
+            <label for="wine-select">Vin :</label>
             <select id="wine-select">
                 <option value="">-- Choisir un vin --</option>
                 <optgroup label="Domaine de Capelude">
@@ -222,46 +249,164 @@
                 </optgroup>
             </select>
 
-            <label for="quantity">Nombre de bouteilles :</label>
-            <input type="number" id="quantity" value="0" min="0">
-
-            <div id="prices" class="price-info" style="display:none;">
-                <div class="price-box">
-                    <strong>Prix/Unité</strong>
-                    <div class="price-value" id="unit-price">-</div>
+            <div class="grid-2">
+                <div>
+                    <label for="prix-achat">Prix d'achat HHT (€) :</label>
+                    <input type="number" id="prix-achat" value="9.30" step="0.01" min="0">
                 </div>
-                <div class="price-box">
-                    <strong>Cartons (6 btl)</strong>
-                    <div class="price-value" id="carton-count">0</div>
+                <div>
+                    <label for="tva">TVA (%) :</label>
+                    <input type="number" id="tva" value="20" step="0.1" min="0">
                 </div>
             </div>
 
-            <div class="buttons-group">
-                <button class="qty-btn" onclick="setQuantity(36)">36 bouteilles<br>(6 cartons)</button>
-                <button class="qty-btn" onclick="setQuantity(60)">60 bouteilles<br>(10 cartons)</button>
-                <button class="qty-btn" onclick="setQuantity(120)">120 bouteilles<br>(20 cartons)</button>
+            <div class="grid-2">
+                <div>
+                    <label for="quantity">Nombre de bouteilles :</label>
+                    <input type="number" id="quantity" value="0" min="0">
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button class="btn-primary" onclick="setQuantity(36)" style="background: #D4A574;">36 btl</button>
+                        <button class="btn-primary" onclick="setQuantity(120)" style="background: #D4A574;">120 btl</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="result" class="result" style="display:none;">
-            <h3>📊 Résumé de votre commande</h3>
-            <div class="result-item">
-                <div class="result-label">Quantité :</div>
-                <div class="result-value"><span id="result-qty">0</span> bouteilles</div>
+        <!-- Résumé achat -->
+        <div class="card" id="purchase-summary" style="display:none;">
+            <h2>💰 Prix d'achat HHT</h2>
+            <div class="grid-2">
+                <div class="result-box">
+                    <div class="label">Prix unitaire HHT</div>
+                    <div class="value" id="prix-unit-hht">0,00€</div>
+                </div>
+                <div class="result-box">
+                    <div class="label">Prix total HHT</div>
+                    <div class="value" id="prix-total-hht">0,00€</div>
+                </div>
             </div>
-            <div class="result-item">
-                <div class="result-label">Cartons :</div>
-                <div class="result-value"><span id="result-cartons">0</span> × 6 btl</div>
+        </div>
+
+        <!-- Onglets pour les modes de vente -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('verre')">Vente au Verre</button>
+            <button class="tab-btn" onclick="switchTab('bouteille')">Vente Bouteille</button>
+            <button class="tab-btn" onclick="switchTab('caviste')">Pour les Cavistes</button>
+        </div>
+
+        <!-- VENTE AU VERRE -->
+        <div id="tab-verre" class="tab-content active">
+            <div class="card">
+                <h2>🥂 Vente au Verre</h2>
+
+                <label>Certification :</label>
+                <div class="cert-buttons">
+                    <button class="cert-btn active" onclick="selectCertif(18.75)">18,75cl<br>4 verres</button>
+                    <button class="cert-btn" onclick="selectCertif(15)">15cl<br>5 verres</button>
+                    <button class="cert-btn" onclick="selectCertif(12.5)">12,5cl<br>6 verres</button>
+                </div>
+
+                <label>Coefficient rapide :</label>
+                <div class="coef-buttons" id="coef-verre-buttons">
+                    <button class="coef-btn active" onclick="selectCoefVerre(3)">Coef 3</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(3.5)">Coef 3.5</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(4)">Coef 4</button>
+                    <button class="coef-btn" onclick="selectCoefVerre(4.5)">Coef 4.5</button>
+                </div>
+
+                <label for="prix-verre-ttc">Prix de vente de la coupe TTC (€) :</label>
+                <input type="number" id="prix-verre-ttc" step="0.01" min="0">
+
+                <div class="section-divider"></div>
+
+                <div class="grid-3">
+                    <div class="result-box">
+                        <div class="label">Coefficient HHT</div>
+                        <div class="value" id="coef-verre-hht">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Verre</div>
+                        <div class="value" id="benef-verre">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice Total</div>
+                        <div class="value" id="benef-verre-total">-</div>
+                    </div>
+                </div>
             </div>
-            <div class="result-item">
-                <div class="result-label">Prix unitaire :</div>
-                <div class="result-value"><span id="result-unit">0</span> €</div>
+        </div>
+
+        <!-- VENTE BOUTEILLE -->
+        <div id="tab-bouteille" class="tab-content">
+            <div class="card">
+                <h2>🍾 Vente sur Carte (Bouteille)</h2>
+
+                <label>Coefficient rapide :</label>
+                <div class="coef-buttons">
+                    <button class="coef-btn active" onclick="selectCoefBouteille(3)">Coef 3</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(3.5)">Coef 3.5</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(4)">Coef 4</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(4.5)">Coef 4.5</button>
+                    <button class="coef-btn" onclick="selectCoefBouteille(5)">Coef 5</button>
+                </div>
+
+                <label for="prix-bouteille-ttc">Prix de vente TTC (€) :</label>
+                <input type="number" id="prix-bouteille-ttc" step="0.01" min="0">
+
+                <div class="section-divider"></div>
+
+                <div class="grid-3">
+                    <div class="result-box">
+                        <div class="label">Coefficient HHT</div>
+                        <div class="value" id="coef-bouteille-hht">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Bouteille</div>
+                        <div class="value" id="benef-bouteille">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice Total</div>
+                        <div class="value" id="benef-bouteille-total">-</div>
+                    </div>
+                </div>
             </div>
-            <div class="result-item" style="border-top: 2px solid #D4A574; padding-top: 15px; margin-top: 15px;">
-                <div class="result-label"><strong>PRIX TOTAL :</strong></div>
-                <div class="result-value total-price"><span id="result-total">0</span> €</div>
+        </div>
+
+        <!-- CAVISTES -->
+        <div id="tab-caviste" class="tab-content">
+            <div class="card">
+                <h2>🏪 Pour les Cavistes</h2>
+
+                <label>Coefficient HHT :</label>
+                <div class="coef-buttons">
+                    <button class="coef-btn active" onclick="selectCoefCaviste(1.8)">Coef HHT 1.8</button>
+                    <button class="coef-btn" onclick="selectCoefCaviste(1.9)">Coef HHT 1.9</button>
+                    <button class="coef-btn" onclick="selectCoefCaviste(2.0)">Coef HHT 2.0</button>
+                </div>
+
+                <label for="prix-caviste-ttc">Prix de vente TTC (€) :</label>
+                <input type="number" id="prix-caviste-ttc" step="0.01" min="0">
+
+                <div class="section-divider"></div>
+
+                <div class="grid-3">
+                    <div class="result-box">
+                        <div class="label">Prix de vente TTC</div>
+                        <div class="value" id="prix-caviste-display">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice/Bouteille</div>
+                        <div class="value" id="benef-caviste">-</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="label">Bénéfice Total</div>
+                        <div class="value" id="benef-caviste-total">-</div>
+                    </div>
+                </div>
             </div>
-            <div id="wine-details" class="wine-details"></div>
         </div>
     </div>
 
@@ -288,39 +433,125 @@
             'clos-rouge': { name: 'Clos Canereccia - Rouge 2023', prix36: 15.84, prix60: null, prix120: null }
         };
 
+        let currentCertif = 18.75;
+        let currentCoefVerre = 3;
+        let currentCoefBouteille = 3;
+        let currentCoefCaviste = 1.8;
+
         function getPrixByQuantity(wine, qty) {
             if (qty <= 36 || !wine.prix60) return wine.prix36;
             if (qty <= 60 || !wine.prix120) return wine.prix60;
             return wine.prix120;
         }
 
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCertif(value) {
+            currentCertif = value;
+            document.querySelectorAll('.cert-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCoefVerre(value) {
+            currentCoefVerre = value;
+            document.querySelectorAll('#coef-verre-buttons .coef-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCoefBouteille(value) {
+            currentCoefBouteille = value;
+            event.target.parentElement.querySelectorAll('.coef-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
+        function selectCoefCaviste(value) {
+            currentCoefCaviste = value;
+            event.target.parentElement.querySelectorAll('.coef-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            calculate();
+        }
+
         function calculate() {
             const wineSelect = document.getElementById('wine-select');
             const quantity = parseInt(document.getElementById('quantity').value) || 0;
-            const resultDiv = document.getElementById('result');
-            const pricesDiv = document.getElementById('prices');
+            const prixAchat = parseFloat(document.getElementById('prix-achat').value) || 0;
+            const tva = parseFloat(document.getElementById('tva').value) || 20;
 
-            if (!wineSelect.value || quantity === 0) {
-                resultDiv.style.display = 'none';
-                pricesDiv.style.display = 'none';
+            if (!wineSelect.value || quantity === 0 || prixAchat === 0) {
+                document.getElementById('purchase-summary').style.display = 'none';
                 return;
             }
 
-            const wine = wines[wineSelect.value];
-            const prix = getPrixByQuantity(wine, quantity);
-            const cartons = Math.ceil(quantity / 6);
-            const total = (prix * quantity).toFixed(2);
+            const prixTTC = prixAchat * (1 + tva / 100);
+            const prixTotalHHT = prixAchat * quantity;
+            const prixTotalTTC = prixTTC * quantity;
 
-            document.getElementById('unit-price').textContent = prix.toFixed(2) + ' €';
-            document.getElementById('carton-count').textContent = cartons;
-            document.getElementById('result-qty').textContent = quantity;
-            document.getElementById('result-cartons').textContent = cartons;
-            document.getElementById('result-unit').textContent = prix.toFixed(2);
-            document.getElementById('result-total').textContent = parseFloat(total).toLocaleString('fr-FR');
-            document.getElementById('wine-details').innerHTML = `<strong>${wine.name}</strong>`;
+            document.getElementById('prix-unit-hht').textContent = prixAchat.toFixed(2) + '€';
+            document.getElementById('prix-total-hht').textContent = prixTotalHHT.toFixed(2) + '€';
+            document.getElementById('purchase-summary').style.display = 'block';
 
-            pricesDiv.style.display = 'grid';
-            resultDiv.style.display = 'block';
+            // Vente au verre
+            const verresParBouteille = 750 / currentCertif;
+            const prixVerreTTC = parseFloat(document.getElementById('prix-verre-ttc').value) || 0;
+            const prixVerreHHT = prixVerreTTC / (1 + tva / 100);
+            const coefVerreHHT = prixAchat > 0 ? (prixVerreHHT / prixAchat).toFixed(2) : '-';
+            const benefVerre = prixVerreHHT - prixAchat;
+            const benefVerreTotal = benefVerre * verresParBouteille * quantity;
+
+            document.getElementById('coef-verre-hht').textContent = coefVerreHHT;
+            document.getElementById('benef-verre').textContent = benefVerre.toFixed(2) + '€';
+            document.getElementById('benef-verre-total').textContent = benefVerreTotal.toFixed(2) + '€';
+
+            // Mise à jour auto prix verre
+            if (currentCoefVerre > 0) {
+                const prixVerreAutoHHT = prixAchat * currentCoefVerre;
+                const prixVerreAutoTTC = prixVerreAutoHHT * (1 + tva / 100);
+                document.getElementById('prix-verre-ttc').value = prixVerreAutoTTC.toFixed(2);
+            }
+
+            // Vente bouteille
+            const prixBouteilleTTC = parseFloat(document.getElementById('prix-bouteille-ttc').value) || 0;
+            const prixBouteilleHHT = prixBouteilleTTC / (1 + tva / 100);
+            const coefBouteilleHHT = prixAchat > 0 ? (prixBouteilleHHT / prixAchat).toFixed(2) : '-';
+            const benefBouteille = prixBouteilleHHT - prixAchat;
+            const benefBouteilleTotal = benefBouteille * quantity;
+
+            document.getElementById('coef-bouteille-hht').textContent = coefBouteilleHHT;
+            document.getElementById('benef-bouteille').textContent = benefBouteille.toFixed(2) + '€';
+            document.getElementById('benef-bouteille-total').textContent = benefBouteilleTotal.toFixed(2) + '€';
+
+            // Mise à jour auto prix bouteille
+            if (currentCoefBouteille > 0) {
+                const prixBouteilleAutoHHT = prixAchat * currentCoefBouteille;
+                const prixBouteilleAutoTTC = prixBouteilleAutoHHT * (1 + tva / 100);
+                document.getElementById('prix-bouteille-ttc').value = prixBouteilleAutoTTC.toFixed(2);
+            }
+
+            // Cavistes
+            const prixCavisteTTC = parseFloat(document.getElementById('prix-caviste-ttc').value) || 0;
+            const prixCavisteHHT = prixCavisteTTC / (1 + tva / 100);
+            const benefCaviste = prixCavisteHHT - prixAchat;
+            const benefCavisteTotal = benefCaviste * quantity;
+
+            document.getElementById('prix-caviste-display').textContent = prixCavisteTTC.toFixed(2) + '€';
+            document.getElementById('benef-caviste').textContent = benefCaviste.toFixed(2) + '€';
+            document.getElementById('benef-caviste-total').textContent = benefCavisteTotal.toFixed(2) + '€';
+
+            // Mise à jour auto prix caviste
+            if (currentCoefCaviste > 0) {
+                const prixCavisteAutoHHT = prixAchat * currentCoefCaviste;
+                const prixCavisteAutoTTC = prixCavisteAutoHHT * (1 + tva / 100);
+                document.getElementById('prix-caviste-ttc').value = prixCavisteAutoTTC.toFixed(2);
+            }
         }
 
         function setQuantity(qty) {
@@ -328,8 +559,20 @@
             calculate();
         }
 
-        document.getElementById('wine-select').addEventListener('change', calculate);
+        document.getElementById('wine-select').addEventListener('change', function() {
+            if (this.value) {
+                const wine = wines[this.value];
+                document.getElementById('prix-achat').value = wine.prix36.toFixed(2);
+                calculate();
+            }
+        });
+
+        document.getElementById('prix-achat').addEventListener('input', calculate);
         document.getElementById('quantity').addEventListener('input', calculate);
+        document.getElementById('tva').addEventListener('input', calculate);
+        document.getElementById('prix-verre-ttc').addEventListener('input', calculate);
+        document.getElementById('prix-bouteille-ttc').addEventListener('input', calculate);
+        document.getElementById('prix-caviste-ttc').addEventListener('input', calculate);
     </script>
 </body>
 </html>
