@@ -1,0 +1,564 @@
+{
+  "name": "Marta 14.02.26 - Assistante IA Agence Sylvins",
+  "description": "Workflow complet de gestion intelligente des emails pour Geoffrey Beaucousin - Agence Sylvins",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerType": "messageReceived",
+        "options": {}
+      },
+      "id": "gmail-trigger",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "credentials": {
+        "gmailOAuth2": "gmail_oauth"
+      }
+    },
+    {
+      "parameters": {
+        "javaScriptCode": "// Classification logic pour les emails\nconst senderEmail = $json.from;\nconst mailBody = $json.body ? $json.body.toLowerCase() : '';\nconst mailSubject = $json.subject ? $json.subject.toLowerCase() : '';\nconst fullContent = `${mailSubject} ${mailBody}`;\n\nlet actionType = null;\n\n// Mots-clés pour différents types d'actions\nconst allocationKeywords = /allocation|demande allocation|accès catalogue/i;\nconst orderKeywords = /commande|commander|je passe commande|order|je voudrais commander/i;\nconst breakageKeywords = /casse|bouteille cass[ée]|bouchonnée|problème livraison|casse livraison/i;\nconst deliveryKeywords = /où en est|suivi livraison|quand livraison|tracking|localisation|où en est/i;\nconst priceKeywords = /tarif|prix|devis|combien ça coûte|quel est votre prix|catalogue de prix/i;\nconst meetingKeywords = /rendez-vous|rdv|visite|peut-on se voir|meeting|commercial|visite commerciale/i;\nconst supplierPriceKeywords = /tarif|prix|liste|catalogue|nouveau tarif|nouveaux prix/i;\nconst invoiceKeywords = /facture|invoice|relance|paiement|règlement|bon de livraison/i;\n\n// Déterminer le type d'action\nif (orderKeywords.test(fullContent)) {\n  actionType = 'NEW_ORDER';\n} else if (allocationKeywords.test(fullContent)) {\n  actionType = 'ALLOCATION_REQUEST';\n} else if (breakageKeywords.test(fullContent)) {\n  actionType = 'DELIVERY_ISSUE';\n} else if (deliveryKeywords.test(fullContent)) {\n  actionType = 'DELIVERY_TRACKING';\n} else if (priceKeywords.test(fullContent)) {\n  actionType = 'PRICE_REQUEST';\n} else if (meetingKeywords.test(fullContent)) {\n  actionType = 'MEETING_REQUEST';\n} else if (supplierPriceKeywords.test(fullContent)) {\n  actionType = 'SUPPLIER_NEW_PRICES';\n} else if (invoiceKeywords.test(fullContent)) {\n  actionType = 'SUPPLIER_INVOICE';\n}\n\nreturn {\n  ...input.item.json,\n  actionType,\n  senderEmail,\n  fullContent,\n  timestamp: new Date().toISOString()\n};"
+      },
+      "id": "classify-email",
+      "name": "Classify Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "ALLOCATION_REQUEST",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-allocation",
+      "name": "Is Allocation Request?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 150]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "NEW_ORDER",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-order",
+      "name": "Is New Order?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "DELIVERY_ISSUE",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-delivery-issue",
+      "name": "Is Delivery Issue?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 450]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "DELIVERY_TRACKING",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-delivery-tracking",
+      "name": "Is Delivery Tracking?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 600]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "PRICE_REQUEST",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-price",
+      "name": "Is Price Request?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 750]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "MEETING_REQUEST",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-meeting",
+      "name": "Is Meeting Request?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 900]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "SUPPLIER_NEW_PRICES",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-supplier-prices",
+      "name": "Is Supplier Prices?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 1050]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.actionType }}",
+              "value2": "SUPPLIER_INVOICE",
+              "operation": "equals"
+            }
+          ]
+        }
+      },
+      "id": "if-supplier-invoice",
+      "name": "Is Supplier Invoice?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 1200]
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "email": "{{ $json.from }}",
+        "subject": "Accès au catalogue d'allocation - Agence Sylvins",
+        "body": "Bonjour,\n\nMerci pour votre intérêt concernant nos allocations.\n\nVeuillez accéder à notre portail de gestion des allocations via le lien suivant :\nhttps://catalogue-sylvins.my.canva.site/gestion-alloctaion\n\nNous restons à votre disposition pour toute question.\n\nCordiales salutations,\nMarta\nAssistante - Agence Sylvins"
+      },
+      "id": "draft-allocation",
+      "name": "Draft Allocation Response",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1000, 120],
+      "credentials": {
+        "gmailOAuth2": "gmail_oauth"
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "email": "{{ $json.from }}",
+        "subject": "Confirmation de votre commande",
+        "body": "Bonjour,\n\nMerci pour votre commande ! 🎉\n\nVotre commande a bien été reçue.\n\nVous recevrez un email de confirmation dès que votre commande aura été traitée par nos équipes.\n\nNous mettons tout en œuvre pour vous servir au mieux.\n\nCordiales salutations,\nMarta\nAssistante - Agence Sylvins"
+      },
+      "id": "draft-order",
+      "name": "Draft Order Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1000, 270],
+      "credentials": {
+        "gmailOAuth2": "gmail_oauth"
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "email": "{{ $json.from }}",
+        "subject": "Tarifs - Agence Sylvins",
+        "body": "Bonjour,\n\nMerci pour votre intérêt !\n\nPour vous proposer les tarifs les mieux adaptés à votre activité, pouvez-vous préciser :\n\n1. Quel est votre département ? (04, 05, 83, autre ?)\n2. Êtes-vous :\n   - CHR (Café, Hôtel, Restaurant, Bar à vins) ?\n   - Caviste ?\n   - Autre type d'entreprise ?\n\nMerci,\nMarta\nAssistante - Agence Sylvins"
+      },
+      "id": "draft-price-request",
+      "name": "Draft Price Info Request",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1000, 600],
+      "credentials": {
+        "gmailOAuth2": "gmail_oauth"
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "email": "{{ $json.from }}",
+        "subject": "Demande de rendez-vous",
+        "body": "Bonjour,\n\nMerci pour votre intérêt pour une visite commerciale.\n\nNous examinons votre demande et vous confirmerons rapidement la disponibilité pour un rendez-vous.\n\nCordiales salutations,\nMarta\nAssistante - Agence Sylvins"
+      },
+      "id": "draft-meeting",
+      "name": "Draft Meeting Acknowledgment",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1000, 750],
+      "credentials": {
+        "gmailOAuth2": "gmail_oauth"
+      }
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "email": "{{ $json.supplier_email }}",
+        "subject": "[SUIVI] Problème de livraison - Client: {{ $json.from }}",
+        "body": "Bonjour,\n\nNous avons reçu un signalement d'un problème concernant une livraison :\n\nClient: {{ $json.from }}\nDate email: {{ $json.timestamp }}\nDétails: {{ $json.body }}\n\nPouvez-vous nous faire un retour au plus vite ?\n\nMerci,\nMarta\nAssistante - Agence Sylvins"
+      },
+      "id": "draft-supplier-issue",
+      "name": "Draft Supplier Issue Report",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [1000, 420],
+      "credentials": {
+        "gmailOAuth2": "gmail_oauth"
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.notionApi.apiKey }}"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "bodyType": "json",
+        "body": "{\n  \"parent\": {\"database_id\": \"2ec3dc87a65180b2b24fc0d4e2018f1d\"},\n  \"properties\": {\n    \"title\": [{\"text\": {\"content\": \"Nouvelle commande: {{ $json.from }}\"}}],\n    \"Client\": {\"email\": \"{{ $json.from }}\"},\n    \"Date\": {\"date\": {\"start\": \"{{ now.toISOString().split('T')[0] }}\"}},\n    \"Statut\": {\"select\": {\"name\": \"À traiter\"}}\n  }\n}"
+      },
+      "id": "notify-order-crm",
+      "name": "Notify Order to CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.notionApi.apiKey }}"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "bodyType": "json",
+        "body": "{\n  \"parent\": {\"database_id\": \"3073dc87a65180589d77c4f803c7ddfb\"},\n  \"properties\": {\n    \"title\": [{\"text\": {\"content\": \"Problème livraison: {{ $json.from }}\"}}],\n    \"Client\": {\"email\": \"{{ $json.from }}\"},\n    \"Date\": {\"date\": {\"start\": \"{{ now.toISOString().split('T')[0] }}\"}},\n    \"Statut\": {\"select\": {\"name\": \"En attente vigneron\"}}\n  }\n}"
+      },
+      "id": "log-delivery-issue",
+      "name": "Log Delivery Issue in CRM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 450]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.notionApi.apiKey }}"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "bodyType": "json",
+        "body": "{\n  \"parent\": {\"database_id\": \"3073dc87a6518155a977d3454a8252ba\"},\n  \"properties\": {\n    \"title\": [{\"text\": {\"content\": \"RDV demandé: {{ $json.from }}\"}}],\n    \"Client\": {\"email\": \"{{ $json.from }}\"},\n    \"Date\": {\"date\": {\"start\": \"{{ now.toISOString().split('T')[0] }}\"}},\n    \"Statut\": {\"select\": {\"name\": \"Attente validation Geoffrey\"}}\n  }\n}"
+      },
+      "id": "create-meeting-ticket",
+      "name": "Create Meeting Request Ticket",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 750]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.notionApi.apiKey }}"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "bodyType": "json",
+        "body": "{\n  \"parent\": {\"database_id\": \"2b73dc87a651808e8177f6de06b217bc\"},\n  \"properties\": {\n    \"title\": [{\"text\": {\"content\": \"Nouveau tarif: {{ $json.from }}\"}}],\n    \"Fournisseur\": {\"email\": \"{{ $json.from }}\"},\n    \"Date\": {\"date\": {\"start\": \"{{ now.toISOString().split('T')[0] }}\"}},\n    \"Sujet\": {\"text\": {\"content\": \"{{ $json.subject }}\"}}\n  }\n}"
+      },
+      "id": "log-supplier-prices",
+      "name": "Log Supplier Prices to Notion",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 1050]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $credentials.notionApi.apiKey }}"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            }
+          ]
+        },
+        "bodyType": "json",
+        "body": "{\n  \"parent\": {\"database_id\": \"2b73dc87a651802c8bd3ed719fd11dcf\"},\n  \"properties\": {\n    \"title\": [{\"text\": {\"content\": \"Facture: {{ $json.from }}\"}}],\n    \"Fournisseur\": {\"email\": \"{{ $json.from }}\"},\n    \"Date\": {\"date\": {\"start\": \"{{ now.toISOString().split('T')[0] }}\"}},\n    \"Type\": {\"select\": {\"name\": \"Facture/Relance\"}},\n    \"Sujet\": {\"text\": {\"content\": \"{{ $json.subject }}\"}}\n  }\n}"
+      },
+      "id": "log-supplier-invoice",
+      "name": "Log Supplier Invoice to Notion",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1250, 1200]
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Classify Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Email": {
+      "main": [
+        [
+          {
+            "node": "Is Allocation Request?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is New Order?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Delivery Issue?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Delivery Tracking?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Price Request?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Meeting Request?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Supplier Prices?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is Supplier Invoice?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Allocation Request?": {
+      "main": [
+        [
+          {
+            "node": "Draft Allocation Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is New Order?": {
+      "main": [
+        [
+          {
+            "node": "Draft Order Confirmation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify Order to CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Delivery Issue?": {
+      "main": [
+        [
+          {
+            "node": "Draft Supplier Issue Report",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Log Delivery Issue in CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Delivery Tracking?": {
+      "main": [
+        [
+          {
+            "node": "Draft Supplier Issue Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Price Request?": {
+      "main": [
+        [
+          {
+            "node": "Draft Price Info Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Meeting Request?": {
+      "main": [
+        [
+          {
+            "node": "Draft Meeting Acknowledgment",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create Meeting Request Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Supplier Prices?": {
+      "main": [
+        [
+          {
+            "node": "Log Supplier Prices to Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Supplier Invoice?": {
+      "main": [
+        [
+          {
+            "node": "Log Supplier Invoice to Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "nodeGroups": [],
+  "pinData": {}
+}
