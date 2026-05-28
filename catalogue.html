@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail Sylvins - Catalogue Produits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #B89968 0%, #D4C4B4 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .status-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .status-box h3 {
+            color: #2ecc71;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .status-box p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            color: #8B6F47;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid #B89968;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .filter-btn.active {
+            background: #B89968;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        .catalog-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            background: white;
+            color: #8B6F47;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 1.4em;
+            font-weight: 700;
+            border-left: 5px solid #B89968;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .catalog-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid #B89968;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .catalog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .catalog-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .catalog-card h3 {
+            color: #8B6F47;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .catalog-card p {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .catalog-stats {
+            background: #F5F1ED;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            color: #555;
+        }
+
+        .stat-item strong {
+            color: #8B6F47;
+        }
+
+        .catalog-label {
+            display: inline-block;
+            background: #E8DED6;
+            color: #8B6F47;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .access-btn {
+            display: inline-block;
+            background: #B89968;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            font-size: 0.95em;
+        }
+
+        .access-btn:hover {
+            background: #9d7d52;
+        }
+
+        .access-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-box .number {
+            font-size: 2.5em;
+            color: #B89968;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-box .label {
+            color: #8B6F47;
+            font-weight: 600;
+        }
+
+        .coming-soon {
+            opacity: 0.7;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: #FFC107;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .footer {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 50px;
+            text-align: center;
+            color: #666;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .footer a {
+            color: #B89968;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="breadcrumb">
+                <a href="index.html">🏠 Portail Sylvins</a> > Catalogue Produits
+            </div>
+            <h1>🍷 Catalogue Complet</h1>
+            <p class="subtitle">13 Catalogues de Vins & Champagnes - Agence Sylvins</p>
+        </div>
+
+        <div class="status-box">
+            <h3>✅ Base de Données Centralisée</h3>
+            <p>Tous les catalogues sont synchronisés en temps réel avec la base de données Notion et mis à jour via le workflow N8N.</p>
+        </div>
+
+        <div class="stats-overview">
+            <div class="stat-box">
+                <div class="number">13</div>
+                <div class="label">Catalogues</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">77</div>
+                <div class="label">Vins en Stock</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">23</div>
+                <div class="label">Domaines</div>
+            </div>
+            <div class="stat-box">
+                <div class="number">4</div>
+                <div class="label">Niveaux de Prix</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCategory('all')">Tous les Catalogues</button>
+            <button class="filter-btn" onclick="filterCategory('vins')">🍇 Vins</button>
+            <button class="filter-btn" onclick="filterCategory('champagne')">🥂 Champagnes</button>
+            <button class="filter-btn" onclick="filterCategory('calcul')">📊 Calculateurs</button>
+        </div>
+
+        <!-- Calculateurs Régionaux (En Ligne) -->
+        <div class="catalog-section" id="section-calcul">
+            <div class="section-title">📊 Calculateurs de Marges Régionaux</div>
+            <div class="catalog-grid">
+                <div class="catalog-card" data-category="calcul">
+                    <div class="icon">🇫🇷</div>
+                    <span class="catalog-label">Vins Régionaux</span>
+                    <h3>Provence</h3>
+                    <p>Calculateur pour les vins de Provence avec tarification CHR, Caviste, Palace et Franco.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Vins:</span> <strong>19</strong></div>
+                        <div class="stat-item"><span>Domaines:</span> <strong>8</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>4.65€-19.20€</strong></div>
+                    </div>
+                    <a href="calculateur_vins.html" class="access-btn">Accéder →</a>
+                </div>
+
+                <div class="catalog-card" data-category="calcul">
+                    <div class="icon">🇫🇷</div>
+                    <span class="catalog-label">Vins Régionaux</span>
+                    <h3>Bourgogne</h3>
+                    <p>Calculateur pour les vins de Bourgogne avec tarification tiérée et coefficients automatiques.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Vins:</span> <strong>26</strong></div>
+                        <div class="stat-item"><span>Domaines:</span> <strong>7</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>10.20€-49.00€</strong></div>
+                    </div>
+                    <a href="calculateur_bourgogne.html" class="access-btn">Accéder →</a>
+                </div>
+
+                <div class="catalog-card" data-category="calcul">
+                    <div class="icon">🇫🇷</div>
+                    <span class="catalog-label">Vins Régionaux</span>
+                    <h3>Vallée du Rhône</h3>
+                    <p>Calculateur pour les vins de la Vallée du Rhône avec tarifs progressifs.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Vins:</span> <strong>32</strong></div>
+                        <div class="stat-item"><span>Domaines:</span> <strong>8</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>5.50€-27.45€</strong></div>
+                    </div>
+                    <a href="calculateur_rhone.html" class="access-btn">Accéder →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalogues Champagne (À Venir) -->
+        <div class="catalog-section" id="section-champagne">
+            <div class="section-title">🥂 Catalogues Champagnes</div>
+            <div class="catalog-grid">
+                <div class="catalog-card coming-soon" data-category="champagne">
+                    <div class="icon">🍾</div>
+                    <span class="catalog-label">Champagne</span>
+                    <h3>Champagnes de Prestige</h3>
+                    <p>Collection premium des grands crus de Champagne avec cotations Michelin.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>24</strong></div>
+                        <div class="stat-item"><span>Maisons:</span> <strong>12</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>18.00€-120.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 JUIN 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="champagne">
+                    <div class="icon">🥂</div>
+                    <span class="catalog-label">Champagne</span>
+                    <h3>Champagnes d'Appel</h3>
+                    <p>Sélection pour la restauration avec bon rapport qualité/prix.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>18</strong></div>
+                        <div class="stat-item"><span>Maisons:</span> <strong>9</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>12.50€-35.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 JUIN 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="champagne">
+                    <div class="icon">✨</div>
+                    <span class="catalog-label">Champagne</span>
+                    <h3>Champagnes Prestige Club</h3>
+                    <p>Accès VIP aux cuvées limitées et millésimées.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>12</strong></div>
+                        <div class="stat-item"><span>Maisons:</span> <strong>6</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>45.00€-250.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 JUILLET 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalogues Vins Supplémentaires (À Venir) -->
+        <div class="catalog-section" id="section-vins">
+            <div class="section-title">🍇 Catalogues Vins Spécialisés</div>
+            <div class="catalog-grid">
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">🍷</div>
+                    <span class="catalog-label">Vins Rouges</span>
+                    <h3>Bordeaux Premium</h3>
+                    <p>Sélection des grands crus et crus classés de Bordeaux.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>28</strong></div>
+                        <div class="stat-item"><span>Châteaux:</span> <strong>14</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>15.00€-85.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 JUILLET 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">🍾</div>
+                    <span class="catalog-label">Vins Blancs</span>
+                    <h3>Bourgognes Blancs</h3>
+                    <p>Chablis et Côte de Beaune avec les meilleures cuvées blanches.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>22</strong></div>
+                        <div class="stat-item"><span>Domaines:</span> <strong>11</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>12.00€-55.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 JUILLET 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">🍷</div>
+                    <span class="catalog-label">Vins Rosés</span>
+                    <h3>Rosés Méditerranéens</h3>
+                    <p>Rosés de Provence, Corse et Languedoc-Roussillon.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>16</strong></div>
+                        <div class="stat-item"><span>Régions:</span> <strong>3</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>6.50€-22.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 AOÛT 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">🌾</div>
+                    <span class="catalog-label">Vins Naturels</span>
+                    <h3>Vins Nature & Biodynamie</h3>
+                    <p>Sélection de vins nature, biodynamiques et durables.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>19</strong></div>
+                        <div class="stat-item"><span>Producteurs:</span> <strong>10</strong></div>
+                        <div class="stat-item"><span>Prix:</span> <strong>8.00€-40.00€</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 AOÛT 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">🍇</div>
+                    <span class="catalog-label">Vins Spécialisés</span>
+                    <h3>Accords Mets & Vins</h3>
+                    <p>Guide des accords entre nos vins et les mets - Curated by sommeliers.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Accords:</span> <strong>45</strong></div>
+                        <div class="stat-item"><span>Catégories:</span> <strong>15</strong></div>
+                        <div class="stat-item"><span>Vins:</span> <strong>77</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 AOÛT 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">📊</div>
+                    <span class="catalog-label">Vins Spécialisés</span>
+                    <h3>Vins pour le CHR</h3>
+                    <p>Sélection optimisée pour les restaurants avec margins et rotations.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>35</strong></div>
+                        <div class="stat-item"><span>Sélection:</span> <strong>Sommelier</strong></div>
+                        <div class="stat-item"><span>Marge:</span> <strong>Optimisée</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 SEPTEMBRE 2026</div>
+                </div>
+
+                <div class="catalog-card coming-soon" data-category="vins">
+                    <div class="icon">🏪</div>
+                    <span class="catalog-label">Vins Spécialisés</span>
+                    <h3>Vins pour le Caviste</h3>
+                    <p>Gamme complète pour les caves avec gestion des stocks.</p>
+                    <div class="catalog-stats">
+                        <div class="stat-item"><span>Références:</span> <strong>42</strong></div>
+                        <div class="stat-item"><span>Sélection:</span> <strong>Experts</strong></div>
+                        <div class="stat-item"><span>Marge:</span> <strong>Progressive</strong></div>
+                    </div>
+                    <button class="access-btn disabled">Bientôt disponible</button>
+                    <div class="coming-soon-badge">📅 SEPTEMBRE 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>📞 Questions sur le Catalogue?</h3>
+            <p>Contactez notre équipe Sylvins à <a href="mailto:contact@sylvins.com">contact@sylvins.com</a></p>
+            <p style="margin-top: 15px; font-size: 0.85em;">Portail Sylvins - Gestion intégrée des marges et coefficients | Synchronisation en temps réel | Dernière mise à jour: 28 mai 2026</p>
+        </div>
+    </div>
+
+    <script>
+        function filterCategory(category) {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide cards based on category
+            const cards = document.querySelectorAll('.catalog-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
