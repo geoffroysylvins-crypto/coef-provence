@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sylvins — Calculateurs de Marges</title>
+    <title>Sylvins — Portail Catalogues</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -30,583 +30,271 @@
             background: var(--cream);
             color: var(--ink);
             min-height: 100vh;
+            padding: 2rem 1.5rem;
         }
 
-        /* ACCUEIL */
-        #accueil {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1.5rem;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .logo-zone {
+        /* ADMIN HEADER */
+        .admin-header {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 2rem;
+            margin-bottom: 3rem;
             text-align: center;
-            margin-bottom: 3.5rem;
         }
 
-        .logo-sylvins {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            color: var(--ink);
-            line-height: 1;
-        }
-
-        .logo-sub {
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-top: 0.6rem;
-        }
-
-        .logo-rule {
-            width: 60px;
-            height: 1px;
-            background: var(--gold);
-            margin: 1.2rem auto 0;
-        }
-
-        .accueil-label {
+        .admin-label {
             font-size: 0.65rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: var(--ink-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .profils-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            width: 100%;
-            max-width: 900px;
-            margin-bottom: 2.5rem;
-        }
-
-        .profil-btn {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            padding: 1.4rem 1.2rem;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profil-btn::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--gold);
-            transform: scaleY(0);
-            transition: transform 0.2s;
-        }
-
-        .profil-btn:hover {
-            border-color: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-        }
-
-        .profil-btn:hover::before {
-            transform: scaleY(1);
-        }
-
-        .profil-icon {
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
             color: var(--gold);
             margin-bottom: 0.5rem;
-            font-weight: 500;
         }
 
-        .profil-name {
+        .admin-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
+            font-size: 2.5rem;
             font-weight: 400;
-            color: var(--ink);
-            line-height: 1.2;
+            margin-bottom: 0.5rem;
         }
 
-        .profil-desc {
-            font-size: 0.72rem;
+        .admin-subtitle {
+            font-size: 0.85rem;
             color: var(--ink-muted);
-            margin-top: 0.4rem;
-            line-height: 1.5;
         }
 
-        /* PORTAIL */
-        #portail {
-            display: none;
-            min-height: 100vh;
-            flex-direction: column;
+        /* SECTION */
+        .section {
+            margin-bottom: 3rem;
         }
 
-        #portail.open {
-            display: flex;
+        .section-header {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .portail-header {
-            background: var(--ink);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
+        /* GRID */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1.5rem;
         }
 
-        .header-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            color: white;
-        }
-
-        .header-badge {
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold-light);
-            border: 1px solid rgba(196,160,107,0.4);
-            padding: 0.25rem 0.7rem;
-            border-radius: 1px;
-        }
-
-        .btn-retour {
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
-            color: rgba(255,255,255,0.5);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            transition: color 0.2s;
-        }
-
-        .btn-retour:hover {
-            color: white;
-        }
-
-        .portail-toolbar {
+        /* CARD */
+        .catalog-card {
             background: white;
-            border-bottom: 1px solid var(--border);
-            padding: 0.9rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .search-wrap {
-            flex: 1;
-            min-width: 180px;
-            position: relative;
-        }
-
-        .search-wrap input {
-            width: 100%;
-            padding: 0.55rem 0.9rem 0.55rem 2.2rem;
             border: 1px solid var(--border);
             border-radius: 2px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.82rem;
+            padding: 1.5rem;
+            text-decoration: none;
             color: var(--ink);
-            background: var(--cream);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-wrap input:focus {
-            border-color: var(--gold);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.7rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 14px;
-            height: 14px;
-            stroke: var(--ink-muted);
-            fill: none;
-            stroke-width: 2;
-            pointer-events: none;
-        }
-
-        .filter-pills {
-            display: flex;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-        }
-
-        .fpill {
-            font-size: 0.7rem;
-            padding: 0.3rem 0.8rem;
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            transition: all 0.2s;
             cursor: pointer;
-            color: var(--ink-soft);
-            background: transparent;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.15s;
-            white-space: nowrap;
+            display: block;
         }
 
-        .fpill:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .fpill.on {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: white;
-        }
-
-        .stats-bar {
-            background: var(--cream);
-            padding: 0.6rem 2rem;
-            font-size: 0.7rem;
-            color: var(--ink-muted);
-            letter-spacing: 0.08em;
-            border-bottom: 1px solid var(--border);
-        }
-
-        /* GRILLE */
-        .grid-wrap {
-            padding: 1.5rem 2rem;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .region-group {
-            margin-bottom: 2.5rem;
-        }
-
-        .region-group-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .region-group-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--ink);
-            letter-spacing: 0.02em;
-            white-space: nowrap;
-        }
-
-        .region-group-line {
-            flex: 1;
-            height: 1px;
-            background: var(--border-strong);
-        }
-
-        .region-group-count {
-            font-size: 0.72rem;
-            color: var(--ink-muted);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .region-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        /* FICHE */
-        .fiche {
-            background: white;
-            cursor: pointer;
-            transition: background 0.15s, box-shadow 0.15s;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .fiche:hover {
+        .catalog-card:hover {
             background: #FDFBF8;
             box-shadow: 0 2px 12px rgba(28,26,23,0.10);
+            border-color: var(--gold);
         }
 
-        .fiche-header {
-            padding: 1rem 1.2rem;
-            flex: 1;
-        }
-
-        .fiche-region {
+        .card-label {
             font-size: 0.6rem;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--gold);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.8rem;
             font-weight: 500;
         }
 
-        .fiche-nom {
+        .card-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 400;
-            color: var(--ink);
             line-height: 1.25;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.5rem;
         }
 
-        .fiche-desc {
-            font-size: 0.72rem;
+        .card-subtitle {
+            font-size: 0.8rem;
             color: var(--ink-muted);
-            line-height: 1.5;
-            margin-bottom: 0.6rem;
         }
 
-        .fiche-stats {
-            font-size: 0.65rem;
-            color: var(--ink-soft);
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.8rem;
-            margin-top: 0.8rem;
+        /* FEATURED CARD */
+        .featured-card {
+            grid-column: 1 / -1;
+            background: white;
+            border: 2px solid var(--gold-pale);
+            padding: 2rem;
+            border-radius: 2px;
         }
 
-        .stat-item {
-            text-align: left;
+        .featured-card .card-title {
+            font-size: 1.8rem;
         }
 
-        .stat-label {
-            color: var(--ink-muted);
-            font-size: 0.6rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 0.2rem;
-        }
-
-        .stat-value {
-            color: var(--gold);
-            font-weight: 500;
+        .featured-card .card-subtitle {
             font-size: 0.9rem;
         }
 
-        .fiche-btn {
-            background: var(--gold-pale);
-            border: none;
-            padding: 0.7rem 1.2rem;
-            border-radius: 2px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 0.08em;
-            color: var(--ink);
-            font-weight: 500;
-            transition: background 0.2s;
-            margin-top: 0.8rem;
-            width: 100%;
-            text-transform: uppercase;
-        }
-
-        .fiche-btn:hover {
-            background: var(--gold);
-            color: white;
-        }
-
-        @media (max-width: 600px) {
-            .portail-header, .portail-toolbar, .grid-wrap {
-                padding-left: 1rem;
-                padding-right: 1rem;
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
             }
-            .logo-sylvins {
-                font-size: 2.5rem;
+
+            .admin-header {
+                padding: 1.5rem;
             }
-            .profils-grid {
-                grid-template-columns: 1fr 1fr;
+
+            .admin-title {
+                font-size: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ÉCRAN D'ACCUEIL -->
-    <div id="accueil">
-        <div class="logo-zone">
-            <div class="logo-sylvins">SYLVINS</div>
-            <div class="logo-sub">Calculateurs de Marges</div>
-            <div class="logo-rule"></div>
+    <div class="container">
+        <!-- ADMIN HEADER -->
+        <div class="admin-header">
+            <div class="admin-label">Admin</div>
+            <div class="admin-title">Sylvins</div>
+            <div class="admin-subtitle">Tous départements · tous profils</div>
         </div>
 
-        <div class="accueil-label">Sélectionnez une région</div>
-
-        <div class="profils-grid">
-            <button class="profil-btn" onclick="ouvrirPortail('provence')">
-                <div class="profil-icon">🍷 Provence</div>
-                <div class="profil-name">Provence</div>
-                <div class="profil-desc">Calculateurs pour les vins de Provence avec marges CHR, Caviste, Palace et Franco.</div>
-            </button>
-
-            <button class="profil-btn" onclick="ouvrirPortail('bourgogne')">
-                <div class="profil-icon">🍷 Bourgogne</div>
-                <div class="profil-name">Bourgogne</div>
-                <div class="profil-desc">Calculateurs pour les vins de Bourgogne avec tarification tiérée et coefficients automatiques.</div>
-            </button>
-
-            <button class="profil-btn" onclick="ouvrirPortail('rhone')">
-                <div class="profil-icon">🍷 Vallée du Rhône</div>
-                <div class="profil-name">Vallée du Rhône</div>
-                <div class="profil-desc">Calculateurs pour les vins de la Vallée du Rhône avec tarifs progressifs.</div>
-            </button>
-
-            <button class="profil-btn" onclick="ouvrirPortail('catalogue')">
-                <div class="profil-icon">📚 Catalogue</div>
-                <div class="profil-name">Catalogue Complet</div>
-                <div class="profil-desc">Accédez au catalogue complet avec les 13 catalogues produits et filtres avancés.</div>
-            </button>
-        </div>
-    </div>
-
-    <!-- PORTAIL CALCULATEURS -->
-    <div id="portail">
-        <div class="portail-header">
-            <div class="header-left">
-                <span class="header-logo">SYLVINS</span>
-                <span class="header-badge" id="region-badge">PROVENCE</span>
+        <!-- CHR SECTION -->
+        <div class="section">
+            <div class="section-header">Restauration CHR</div>
+            <div class="cards-grid">
+                <div class="catalog-card" onclick="openCalculator('chr', 83)">
+                    <div class="card-label">CHR</div>
+                    <div class="card-title">83 — Var</div>
+                    <div class="card-subtitle">Tarif CHR</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('chr', 13)">
+                    <div class="card-label">CHR</div>
+                    <div class="card-title">13 — Bouches-du-Rhône</div>
+                    <div class="card-subtitle">Tarif CHR</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('chr', 6)">
+                    <div class="card-label">CHR</div>
+                    <div class="card-title">06 — Alpes-Mar. / Monaco</div>
+                    <div class="card-subtitle">Tarif CHR</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('chr', 4)">
+                    <div class="card-label">CHR</div>
+                    <div class="card-title">04 — Alpes-de-Haute-Provence</div>
+                    <div class="card-subtitle">Tarif CHR</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('chr', 5)">
+                    <div class="card-label">CHR</div>
+                    <div class="card-title">05 — Hautes-Alpes</div>
+                    <div class="card-subtitle">Tarif CHR</div>
+                </div>
             </div>
-            <button class="btn-retour" onclick="retourAccueil()">← Retour à l'accueil</button>
         </div>
 
-        <div class="portail-toolbar">
-            <div class="search-wrap">
-                <svg class="search-icon" viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
-                    <path d="m21 21-4.35-4.35" fill="none" stroke="currentColor" stroke-width="2"/>
-                </svg>
-                <input type="text" id="search-input" placeholder="Rechercher un vin...">
+        <!-- CAVISTE SECTION -->
+        <div class="section">
+            <div class="section-header">Caviste</div>
+            <div class="cards-grid">
+                <div class="catalog-card" onclick="openCalculator('caviste', 83)">
+                    <div class="card-label">Caviste</div>
+                    <div class="card-title">83 — Var</div>
+                    <div class="card-subtitle">Tarif caviste</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('caviste', 13)">
+                    <div class="card-label">Caviste</div>
+                    <div class="card-title">13 — Bouches-du-Rhône</div>
+                    <div class="card-subtitle">Tarif caviste</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('caviste', 6)">
+                    <div class="card-label">Caviste</div>
+                    <div class="card-title">06 — Alpes-Mar. / Monaco</div>
+                    <div class="card-subtitle">Tarif caviste</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('caviste', 4)">
+                    <div class="card-label">Caviste</div>
+                    <div class="card-title">04 — Alpes-de-Haute-Provence</div>
+                    <div class="card-subtitle">Tarif caviste</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('caviste', 5)">
+                    <div class="card-label">Caviste</div>
+                    <div class="card-title">05 — Hautes-Alpes</div>
+                    <div class="card-subtitle">Tarif caviste</div>
+                </div>
             </div>
-            <div class="filter-pills" id="filter-container"></div>
         </div>
 
-        <div class="stats-bar" id="stats-bar">Chargement des données...</div>
+        <!-- AUTRES ACCÈS SECTION -->
+        <div class="section">
+            <div class="section-header">Autres Accès</div>
+            <div class="cards-grid">
+                <div class="catalog-card featured-card" onclick="openCalculator('palace', null)">
+                    <div class="card-label">Palace</div>
+                    <div class="card-title">Palaces & Hôtels Prestigieux</div>
+                    <div class="card-subtitle">Tarif palace · accès tous départements</div>
+                </div>
+                <div class="catalog-card" onclick="openCalculator('franco', null)">
+                    <div class="card-label">Franco</div>
+                    <div class="card-title">Franco</div>
+                    <div class="card-subtitle">Tarif Franco</div>
+                </div>
+            </div>
+        </div>
 
-        <div class="grid-wrap">
-            <div id="grid-content"></div>
+        <!-- PARTICULIER SECTION -->
+        <div class="section">
+            <div class="section-header">Particulier</div>
+            <div class="cards-grid">
+                <div class="catalog-card" onclick="openCalculator('particulier', null)">
+                    <div class="card-label">Particulier</div>
+                    <div class="card-title">Particuliers</div>
+                    <div class="card-subtitle">Vente directe aux particuliers</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÉCOUVERTE SECTION -->
+        <div class="section">
+            <div class="section-header">Découverte</div>
+            <div class="cards-grid">
+                <div class="catalog-card" onclick="openCalculator('decouverte', null)">
+                    <div class="card-label">Découverte</div>
+                    <div class="card-title">Catalogue Gamme</div>
+                    <div class="card-subtitle">Présentation · sans tarifs</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        const DATA = {
-            provence: {
-                name: 'Provence',
-                vins: [
-                    { nom: 'Rosé Côtes de Provence', domaine: 'Château Sainte Marguerite', vins: 19, domaines: 8, prix: '4.65€-19.20€' },
-                    { nom: 'Blanc de Provence', domaine: 'Domaines Ott', vins: 19, domaines: 8, prix: '4.65€-19.20€' },
-                    { nom: 'Rouge Côtes de Provence', domaine: 'La Cour Carrée', vins: 19, domaines: 8, prix: '4.65€-19.20€' }
-                ]
-            },
-            bourgogne: {
-                name: 'Bourgogne',
-                vins: [
-                    { nom: 'Pinot Noir Bourgogne', domaine: 'Domaine Lassarat', vins: 26, domaines: 7, prix: '10.20€-49.00€' },
-                    { nom: 'Chardonnay Bourgogne', domaine: 'Domaine Girardin', vins: 26, domaines: 7, prix: '10.20€-49.00€' },
-                    { nom: 'Côte de Beaune', domaine: 'Domaine Lafite', vins: 26, domaines: 7, prix: '10.20€-49.00€' }
-                ]
-            },
-            rhone: {
-                name: 'Vallée du Rhône',
-                vins: [
-                    { nom: 'Côtes du Rhône Rouge', domaine: 'Domaine Guigal', vins: 32, domaines: 8, prix: '5.50€-27.45€' },
-                    { nom: 'Condrieu Blanc', domaine: 'Yalumba', vins: 32, domaines: 8, prix: '5.50€-27.45€' },
-                    { nom: 'Hermitage', domaine: 'Paul Jaboulet Aîné', vins: 32, domaines: 8, prix: '5.50€-27.45€' }
-                ]
-            }
-        };
-
-        function ouvrirPortail(region) {
-            if (region === 'catalogue') {
-                window.location.href = 'catalogue.html';
-                return;
-            }
-
-            const data = DATA[region];
-            document.getElementById('accueil').style.display = 'none';
-            document.getElementById('portail').classList.add('open');
-            document.getElementById('region-badge').textContent = data.name.toUpperCase();
-
-            const grid = document.getElementById('grid-content');
-            grid.innerHTML = `
-                <div class="region-group">
-                    <div class="region-group-header">
-                        <span class="region-group-title">${data.name}</span>
-                        <div class="region-group-line"></div>
-                        <span class="region-group-count">${data.vins.length} fiches</span>
-                    </div>
-                    <div class="region-cards">
-                        ${data.vins.map(vin => `
-                            <div class="fiche" onclick="ouvrirCalculateur('${region}')">
-                                <div class="fiche-header">
-                                    <div class="fiche-region">${data.name}</div>
-                                    <div class="fiche-nom">${vin.nom}</div>
-                                    <div class="fiche-desc">${vin.domaine}</div>
-                                    <div class="fiche-stats">
-                                        <div class="stat-item">
-                                            <div class="stat-label">Vins</div>
-                                            <div class="stat-value">${vin.vins}</div>
-                                        </div>
-                                        <div class="stat-item">
-                                            <div class="stat-label">Domaines</div>
-                                            <div class="stat-value">${vin.domaines}</div>
-                                        </div>
-                                        <div class="stat-item">
-                                            <div class="stat-label">Prix</div>
-                                            <div class="stat-value">${vin.prix}</div>
-                                        </div>
-                                    </div>
-                                    <button class="fiche-btn">Ouvrir</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('stats-bar').textContent = `${data.vins.length} calculateurs disponibles • Synchronisation Notion → GitHub en temps réel`;
-        }
-
-        function retourAccueil() {
-            document.getElementById('accueil').style.display = 'flex';
-            document.getElementById('portail').classList.remove('open');
-        }
-
-        function ouvrirCalculateur(region) {
+        function openCalculator(profile, dept) {
             const urls = {
-                provence: 'calculateur_vins.html',
-                bourgogne: 'calculateur_bourgogne.html',
-                rhone: 'calculateur_rhone.html'
+                'chr': dept === 83 || !dept ? 'calculateur_vins.html' : 'calculateur_vins.html',
+                'caviste': 'calculateur_vins.html',
+                'palace': 'calculateur_vins.html',
+                'franco': 'calculateur_vins.html',
+                'particulier': 'calculateur_vins.html',
+                'decouverte': 'catalogue.html'
             };
-            window.location.href = urls[region];
+            window.location.href = urls[profile];
         }
     </script>
 </body>
