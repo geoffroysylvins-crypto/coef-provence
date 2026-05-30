@@ -269,13 +269,13 @@ function generateCatalogPage(category, department, records, domainsMap) {
     <div class="mode-toggle">
       <span class="mode-label">Affichage</span>
       <div class="toggle-buttons">
-        <button class="toggle-btn active" onclick="switchMode('catalogue')">📚 Catalogue</button>
-        <button class="toggle-btn" onclick="switchMode('vignette')">🎨 Vignettes</button>
+        <button class="toggle-btn" onclick="switchMode('catalogue')">📚 Catalogue</button>
+        <button class="toggle-btn active" onclick="switchMode('vignette')">🎨 Vignettes</button>
       </div>
     </div>
 
     <!-- MODE CATALOGUE -->
-    <div class="mode-catalogue">
+    <div class="mode-catalogue hidden">
 `;
 
   groupedWines.forEach(group => {
@@ -338,7 +338,7 @@ function generateCatalogPage(category, department, records, domainsMap) {
       localStorage.setItem('catalogMode', mode);
     }
     window.addEventListener('load', () => {
-      const savedMode = localStorage.getItem('catalogMode') || 'catalogue';
+      const savedMode = localStorage.getItem('catalogMode') || 'vignette';
       const btnIndex = savedMode === 'catalogue' ? 0 : 1;
       document.querySelectorAll('.toggle-btn')[btnIndex].click();
     });
