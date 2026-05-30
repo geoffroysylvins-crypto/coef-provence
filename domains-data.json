@@ -1,0 +1,74 @@
+{
+  "domains": {
+    "Domaine de Fondrèche": {
+      "region": "Provence",
+      "description": "Domaine familial emblématique du Ventoux, réputé pour ses vins élégants et complexes. Depuis 1973, exploitation de terroirs d'altitude exceptionnels.",
+      "certifications": ["Bio"],
+      "photo": "https://via.placeholder.com/400x300?text=Domaine+de+Fondrèche",
+      "location": "Ventoux, Provence"
+    },
+    "Domaine Mongeard-Mugneret": {
+      "region": "Bourgogne",
+      "description": "Producteur prestigieux des Côtes de Nuits. Depuis 1947, excellence et tradition dans la production de Grands Crus et Premier Crus de Bourgogne.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=Mongeard-Mugneret",
+      "location": "Côtes de Nuits, Bourgogne"
+    },
+    "Domaine Girardin": {
+      "region": "Bourgogne",
+      "description": "Domaine historique spécialisé dans les Premiers et Grands Crus. Techniques traditionnelles et modernité se conjuguent pour des vins d'expression.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=Domaine+Girardin",
+      "location": "Côte de Beaune, Bourgogne"
+    },
+    "Bouchard": {
+      "region": "Bourgogne",
+      "description": "Maison bourguignonne fondée en 1731. Vins d'exception issus de vignobles patrimoniaux et production de haute qualité.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=Bouchard",
+      "location": "Beaune, Bourgogne"
+    },
+    "Domaine William Fèvre": {
+      "region": "Champagne",
+      "description": "Légende du Chablis depuis 1957. Maître incontesté des Grands Crus et terroirs calcaires de l'Yonne.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=William+Fevre",
+      "location": "Chablis, Champagne"
+    },
+    "Champagne Girard-Bonnet": {
+      "region": "Champagne",
+      "description": "Champagne authentique et artisanal. Élaboration traditionnelle pour des bulles délicates et complexes.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=Girard-Bonnet",
+      "location": "Champagne"
+    },
+    "Domaine Sérol": {
+      "region": "Loire",
+      "description": "Petit domaine produisant des vins naturels de Loire reconnus. Approche biodynamique et vins expressifs.",
+      "certifications": ["Bio", "Biodynamie"],
+      "photo": "https://via.placeholder.com/400x300?text=Domaine+Serol",
+      "location": "Loire"
+    },
+    "Domaine de la Réaltière": {
+      "region": "Vallée du Rhône",
+      "description": "Terroirs du Rhône nord magnifiés par une vinification respectueuse. Vins de garde et élégance.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=La+Realtiere",
+      "location": "Vallée du Rhône"
+    },
+    "Bret Brothers": {
+      "region": "Bourgogne",
+      "description": "Vignerons passionnés des Mâconnais. Vins sincères et gourmands issus de belles terroirs.",
+      "certifications": ["Bio"],
+      "photo": "https://via.placeholder.com/400x300?text=Bret+Brothers",
+      "location": "Mâcon, Bourgogne"
+    },
+    "Brunier": {
+      "region": "Vallée du Rhône",
+      "description": "Domaine emblématique de Gigondas. Vins puissants et structurés de la Vallée du Rhône méridionale.",
+      "certifications": [],
+      "photo": "https://via.placeholder.com/400x300?text=Brunier",
+      "location": "Gigondas, Vallée du Rhône"
+    }
+  }
+}
