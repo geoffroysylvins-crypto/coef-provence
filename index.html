@@ -101,6 +101,7 @@
             transition: all 0.2s;
             cursor: pointer;
             display: block;
+            outline: none;
         }
 
         .catalog-card:hover {
@@ -182,31 +183,31 @@
         <div class="section">
             <div class="section-header">Restauration CHR</div>
             <div class="cards-grid">
-                <div class="catalog-card" onclick="openCalculator('chr', 83)">
+                <a href="83_chr.html" class="catalog-card">
                     <div class="card-label">CHR</div>
                     <div class="card-title">83 — Var</div>
                     <div class="card-subtitle">Tarif CHR</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('chr', 13)">
+                </a>
+                <a href="13_chr.html" class="catalog-card">
                     <div class="card-label">CHR</div>
                     <div class="card-title">13 — Bouches-du-Rhône</div>
                     <div class="card-subtitle">Tarif CHR</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('chr', 6)">
+                </a>
+                <a href="06_chr.html" class="catalog-card">
                     <div class="card-label">CHR</div>
                     <div class="card-title">06 — Alpes-Mar. / Monaco</div>
                     <div class="card-subtitle">Tarif CHR</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('chr', 4)">
+                </a>
+                <a href="04_chr.html" class="catalog-card">
                     <div class="card-label">CHR</div>
                     <div class="card-title">04 — Alpes-de-Haute-Provence</div>
                     <div class="card-subtitle">Tarif CHR</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('chr', 5)">
+                </a>
+                <a href="05_chr.html" class="catalog-card">
                     <div class="card-label">CHR</div>
                     <div class="card-title">05 — Hautes-Alpes</div>
                     <div class="card-subtitle">Tarif CHR</div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -214,31 +215,31 @@
         <div class="section">
             <div class="section-header">Caviste</div>
             <div class="cards-grid">
-                <div class="catalog-card" onclick="openCalculator('caviste', 83)">
+                <a href="83_caviste.html" class="catalog-card">
                     <div class="card-label">Caviste</div>
                     <div class="card-title">83 — Var</div>
                     <div class="card-subtitle">Tarif caviste</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('caviste', 13)">
+                </a>
+                <a href="13_caviste.html" class="catalog-card">
                     <div class="card-label">Caviste</div>
                     <div class="card-title">13 — Bouches-du-Rhône</div>
                     <div class="card-subtitle">Tarif caviste</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('caviste', 6)">
+                </a>
+                <a href="06_caviste.html" class="catalog-card">
                     <div class="card-label">Caviste</div>
                     <div class="card-title">06 — Alpes-Mar. / Monaco</div>
                     <div class="card-subtitle">Tarif caviste</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('caviste', 4)">
+                </a>
+                <a href="04_caviste.html" class="catalog-card">
                     <div class="card-label">Caviste</div>
                     <div class="card-title">04 — Alpes-de-Haute-Provence</div>
                     <div class="card-subtitle">Tarif caviste</div>
-                </div>
-                <div class="catalog-card" onclick="openCalculator('caviste', 5)">
+                </a>
+                <a href="05_caviste.html" class="catalog-card">
                     <div class="card-label">Caviste</div>
                     <div class="card-title">05 — Hautes-Alpes</div>
                     <div class="card-subtitle">Tarif caviste</div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -285,17 +286,7 @@
     </div>
 
     <script>
-        function openCalculator(profile, dept) {
-            const urls = {
-                'chr': dept === 83 || !dept ? 'calculateur_vins.html' : 'calculateur_vins.html',
-                'caviste': 'calculateur_vins.html',
-                'palace': 'calculateur_vins.html',
-                'franco': 'calculateur_vins.html',
-                'particulier': 'calculateur_vins.html',
-                'decouverte': 'catalogue.html'
-            };
-            window.location.href = urls[profile];
-        }
+        // Navigation links are now handled by <a> tags with href attributes
     </script>
 </body>
 </html>
