@@ -1,0 +1,40 @@
+{
+  "mcpServers": {
+    "n8n-mcp": {
+      "_comment": "Option 1: Service hébergé (recommandé - 100 appels/jour gratuits)",
+      "url": "https://dashboard.n8n-mcp.com",
+      "apiKey": "VOTRE_API_KEY_DASHBOARD"
+    },
+    "n8n-mcp-local": {
+      "_comment": "Option 2: NPX local (nécessite Node.js)",
+      "command": "npx",
+      "args": ["n8n-mcp"],
+      "env": {
+        "MCP_MODE": "stdio",
+        "LOG_LEVEL": "info",
+        "N8N_API_URL": "http://localhost:5678",
+        "N8N_API_KEY": "VOTRE_API_KEY_N8N"
+      }
+    },
+    "n8n-mcp-docker": {
+      "_comment": "Option 3: Docker (production - image 82% plus petite)",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "MCP_MODE=stdio",
+        "-e", "N8N_API_URL=http://host.docker.internal:5678",
+        "-e", "N8N_API_KEY=VOTRE_API_KEY_N8N",
+        "ghcr.io/czlonkowski/n8n-mcp:latest"
+      ]
+    }
+  },
+  "_notes": {
+    "installation_skills": "Installez les 7 skills avec: /plugin install czlonkowski/n8n-skills",
+    "coverage": "1,084 nodes | 2,709 templates | 265 AI tools",
+    "service_heberge": "dashboard.n8n-mcp.com - Gratuit 100 calls/jour",
+    "documentation": "github.com/czlonkowski/n8n-mcp",
+    "skills_docs": "github.com/czlonkowski/n8n-skills"
+  }
+}

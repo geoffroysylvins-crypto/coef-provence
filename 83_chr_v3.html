@@ -1,0 +1,4199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sylvins — Restauration CHR — Var</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    
+    :root {
+      --cream: #F7F4EF;
+      --ink: #1C1A17;
+      --ink-soft: #4A4540;
+      --ink-muted: #8C867E;
+      --gold: #9B7B4A;
+      --gold-light: #C4A06B;
+      --gold-pale: #EDE3D4;
+      --border: rgba(28,26,23,0.12);
+      --border-strong: rgba(28,26,23,0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .header-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .header-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .domain-card {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      transition: all 0.2s;
+    }
+
+    .domain-card:hover {
+      background: #FDFBF8;
+      box-shadow: 0 2px 12px rgba(28,26,23,0.10);
+      border-color: var(--gold);
+    }
+
+    .domain-photo {
+      overflow: hidden;
+      border-radius: 2px;
+      aspect-ratio: 1;
+    }
+
+    .domain-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .domain-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .domain-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.25rem;
+    }
+
+    .domain-location {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .domain-certifications {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .domain-description {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+    }
+
+    .wines-list {
+      background: #FDFBF8;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 1.5rem;
+      margin-left: 0;
+    }
+
+    .wines-header {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: grid;
+      grid-template-columns: 30px 1fr 100px 60px 80px;
+      gap: 1rem;
+    }
+
+    .wine-row {
+      display: grid;
+      grid-template-columns: 30px 1fr 100px 60px 80px;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+      align-items: center;
+    }
+
+    .wine-row:last-child {
+      border-bottom: none;
+    }
+
+    .wine-color {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .wine-name {
+      font-weight: 500;
+    }
+
+    .wine-format {
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+    }
+
+    .wine-vintage {
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+    }
+
+    .wine-price {
+      text-align: right;
+      font-weight: 500;
+      color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .header {
+        padding: 1.5rem;
+      }
+
+      .header-title {
+        font-size: 2rem;
+      }
+
+      .domain-card {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .domain-photo {
+        aspect-ratio: auto;
+        height: 250px;
+      }
+
+      .wines-header,
+      .wine-row {
+        grid-template-columns: 20px 1fr 80px 50px;
+        gap: 0.5rem;
+      }
+
+      .wine-vintage {
+        display: none;
+      }
+    }
+  
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-label">CHR</div>
+      <div class="header-title">Restauration CHR</div>
+      <div class="header-subtitle">Département 83 · Var</div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/T5BPQ4T5T0Kxw9e6wYT5UQ_375x500.jpg" alt="Domaine de la Réaltière" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine de la Réaltière</div>
+        <div class="domain-location">Draguignan</div>
+        <div class="domain-certifications">🌿</div>
+        <div class="domain-description">Domaine provençal produisant des rosés et rouges méditerranéens. Vins frais avec belle minéralité caractéristique de Provence.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Blanc Public blanc 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">8.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cante Gau blanc 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">16.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cul-Sec rouge 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">8.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cante Gau rosé 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pastel rosé 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">8.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cante Gau rouge 2021</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">13.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Grande Terre rouge 2020</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">16.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Grande Terre rouge 2023</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chimera rouge 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">10.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Terroyas Carignan rouge 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">13.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bardouines Aramon rouge 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">13.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Sauvèdes Grenache rouge 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">13.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Caillette Cinsault rouge 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">13.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Itinéraire bis blanc 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Itinéraire bis rosé 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Itinéraire bis rouge 2025</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Lamivin — La Rigaude blanc 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Lamivin — Blanc de macération 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/HkXgPxJYT0KQCH9pJ1SKIA_375x500.jpg" alt="Domaine La Soufrandière" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine La Soufrandière</div>
+        <div class="domain-location">Vergisson, Mâconnais</div>
+        
+        <div class="domain-description">Petit domaine du Mâconnais spécialisé dans les chardonnays. Vins purs et minéraux avec une belle minéralité.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne Aligoté « Aligato » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">16.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Véran « La Combe Desroches » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">16.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mâcon-Vinzelles « Le Clos de Grand-Père » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">16.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Véran climat « La Bonnodde » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">20.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Véran climat « La Bonnodde » cuvée Ovoïde ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">20.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">La Carbonnode (Vin de France) ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">20.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Fuissé 1er Cru « Au Vignerais » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Fuissé climat « En Chatenay » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">19.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles 1er Cru « Les Longeays » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">27.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles 1er Cru « Les Quarts » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles 1er Cru « Les Quarts » Millerandée ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">X-Taste 2017 (Vin de France) style liquoreux</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2017</div>
+      <div class="wine-price">35.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Véran « La Combe Desroches » ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">34.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Véran climat « La Bonnodde » ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">43.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Véran climat « La Bonnodde » cuvée Ovoïde ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">43.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">40.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Fuissé climat « En Chatenay » ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">64.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles 1er Cru « Les Quarts » ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">64.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Vinzelles 1er Cru « Les Quarts » Millerandée ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">82.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/kB5xJ4TaT0OuM1j5gPnYfA_375x500.jpg" alt="Bret Brothers" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Bret Brothers</div>
+        <div class="domain-location">Morgon</div>
+        <div class="domain-certifications">🌿</div>
+        <div class="domain-description">Producteur de Morgon en agriculture biologique. Beaujolais crus avec belle expression du fruit et belle minéralité.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Men in Bret XXIV ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">9.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Brouilly ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">16.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Amour « Côte de Besset » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Fleurie « Poncie » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Juliénas « La Bottière » ZEN 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Juliénas « La Bottière » ZEN 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">37.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/kB5xJ4TaT0OuM1j5gPnYfA_375x500.jpg" alt="Bret Brothers" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Bret Brothers</div>
+        <div class="domain-location">Morgon</div>
+        <div class="domain-certifications">🌿</div>
+        <div class="domain-description">Producteur de Morgon en agriculture biologique. Beaujolais crus avec belle expression du fruit et belle minéralité.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mâcon-Villages « Terroirs du Mâconnais » 2024</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mâcon-Villages « Terroirs du Mâconnais » BIS 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mâcon-Igé « En Chanelet » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">13.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mâcon-Igé « Les Vernayes » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">12.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Fuissé « En Carementrant » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">24.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pouilly-Fuissé 1er Cru « Les Reisses » 2024</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">24.50 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/gY_K1pTeT0WrT5jC7xvXOg_375x500.jpg" alt="Champagne Girard-Bonnet" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Champagne Girard-Bonnet</div>
+        <div class="domain-location">Cramant</div>
+        
+        <div class="domain-description">Champagne d'artisan du village blanc de Cramant. Bulles fines et élégantes.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">A Deux Pas</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">Base 2022</div>
+      <div class="wine-price">36.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">A Mi-Chemin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">Base 2023</div>
+      <div class="wine-price">28.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mon Village</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">Base 2022</div>
+      <div class="wine-price">36.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Au Bout du Chemin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">Base 2023</div>
+      <div class="wine-price">24.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">A Mi-Chemin</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">Base 2021</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Mussettes</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">45.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Recueil Extrait n3 (Rosé)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">Base 2023</div>
+      <div class="wine-price">29.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Caferlane</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">45.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/ZZVhScYvT0K7jJ3_C3YcAg_375x500.jpg" alt="Champagne Valentin Leflaive" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Champagne Valentin Leflaive</div>
+        <div class="domain-location">Cumières</div>
+        
+        <div class="domain-description">Producteur de Champagne artisanal produisant des bulles élégantes et fines. Vins aux dosages classiques et équilibrés.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">CV</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">19</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Sigma</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">29.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">CV</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">19</div>
+      <div class="wine-price">59.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Sigma</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">65.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Avize</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">17</div>
+      <div class="wine-price">38.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cramant</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">38.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oger</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">38.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oger</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">84.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Le Mesnil-sur-Oger</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">17</div>
+      <div class="wine-price">44.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzy</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">38.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzenay</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">44.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzenay</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">96.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzenay Rosé</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cramant Les Bauves</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oger Les Baudures</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oger La Petite Haie</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Avize Les Roches</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Mareuil-sur-Aÿ Les Basses Clefs</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">44.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzenay Les Longues Raies</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzenay Les Marquises</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">20</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/RfkN9mT4T0Wv3hX8tZaQ5g_375x500.jpg" alt="Champagne Pierre Paillard" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Champagne Pierre Paillard</div>
+        <div class="domain-location">Reims</div>
+        
+        <div class="domain-description">Champagne de style traditionnel avec une belle richesse et complexité. Producteur reconnu pour ses cuvées prestige.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Parcelles Bouzy Grand Cru</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">NM base 2020</div>
+      <div class="wine-price">16.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Parcelles Bouzy Grand Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">NM base 2021</div>
+      <div class="wine-price">55.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Terres Roses Bouzy Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">NM base 2020</div>
+      <div class="wine-price">35.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Parcelles Bouzy Grand Cru</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">NM base 2018</div>
+      <div class="wine-price">150.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Parcelles Bouzy Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">NM base 2022</div>
+      <div class="wine-price">25.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bouzy Grand Cru Blanc de Noirs</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021 (mars 2026)</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Maillerettes Bouzy Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bouzy Grand Cru Blanc de Noirs</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2021 (mars 2026)</div>
+      <div class="wine-price">90.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Mottelettes Bouzy Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Ambonnay Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021 (mars 2026)</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Verzenay Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021 (mars 2026)</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Ludes Premier Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Taissy Premier Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bouzy Rouge Les Mignottes</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bouzy Grand Cru La Grande Récolte</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2008</div>
+      <div class="wine-price">110.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bouzy Grand Cru La Grande Récolte</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2012</div>
+      <div class="wine-price">90.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/k_tMQvMWT0KqJiR8Lz-nxQ_375x500.jpg" alt="Domaine Sérol" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Sérol</div>
+        <div class="domain-location">Saint-Pourçain-sur-Sioule</div>
+        
+        <div class="domain-description">Producteur de Saint-Pourçain spécialisé dans les vins régionaux authentiques. Vins expressifs avec un bon rapport qualité-prix.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Éclat de Granite</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">5.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Éclat de Granite</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">8.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Éclat de Granite</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">59.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Blondins</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Éclat de Granite</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">19.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Blondins</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">26.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Les Blondins</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">71.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oudan</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oudan</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">26.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oudan</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">71.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Millerands</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">13.10 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Millerands</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">77.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Millerands</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">28.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Perdrizière</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">14.10 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Perdrizière</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">31.10 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Perdrizière</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">82.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chez Muron / Chez Coste (amphore)</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">109.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chez Muron / Chez Coste (amphore)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">44.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oudan — de Butte en Blanc (Viognier sec)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">11.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Oudan — de Butte en Blanc (Viognier sec)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">26.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chez Muron / Chez Coste (amphore)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">19.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Champtoisé (Chenin sec)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Infusion (Chenin sec, macération amphore)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">19.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Infusion (Chenin sec, macération amphore)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">44.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Champtoisé (Chenin sec)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">26.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Champtoisé (Chenin sec)</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">71.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Cabochard (Vins tranquilles)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">6.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pourquoi Faire Sans Blanc (Rosé sec)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">8.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Serol Champs Libres (Blanc sec — Chenin)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">18.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Espiègle (Méthode ancestrale — pétillant blanc sec de Chenin)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage"></div>
+      <div class="wine-price">10.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Espiègle (Méthode ancestrale — pétillant blanc sec de Chenin)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage"></div>
+      <div class="wine-price">25.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Turbullent (Méthode ancestrale — pétillant rosé de Gamay)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage"></div>
+      <div class="wine-price">7.95 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Turbullent (Méthode ancestrale — pétillant rosé de Gamay)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage"></div>
+      <div class="wine-price">19.90 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/O_L1hKgZT0CWU0QVfg-WJA_375x500.jpg" alt="Vignobles des Cabottes" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Vignobles des Cabottes</div>
+        <div class="domain-location">Santenay</div>
+        
+        <div class="domain-description">Petit vignoble produisant des vins régionaux authentiques avec caractère. Bonne expression du terroir côte-d'orien.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Montrachet Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">705.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chevalier-Montrachet « La Cabotte » Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">590.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chevalier-Montrachet Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">355.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">175.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">390.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">97.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Genevrières 1er Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">100.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Genevrières 1er Cru</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">55.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Perrières 1er Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">120.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Perrières 1er Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">260.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Clos Saint-Landry 1er Cru (Monopole)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">53.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Clos Saint-Landry 1er Cru (Monopole)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">115.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Les Clos Village</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">45.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Les Clos Village</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">98.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault Les Clos Village</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">25.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton « Le Corton » Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">94.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton « Le Corton » Grand Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">205.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton « Le Corton » Grand Cru</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">52.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Les Grèves VEJ 1er Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">105.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Les Grèves VEJ 1er Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">235.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Clos de la Mousse 1er Cru (Monopole)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">47.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Clos de la Mousse 1er Cru (Monopole)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">105.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Beaune Les Teurons 1er Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">38.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Savigny-lès-Beaune Les Lavières 1er Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">32.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Volnay Les Caillerets ACC 1er Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">59.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/5f-vT5ZZT0SMuB-xY_x4Rg_375x500.jpg" alt="Domaine William Fèvre" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine William Fèvre</div>
+        <div class="domain-location">Chablis</div>
+        
+        <div class="domain-description">Grande maison de Chablis, leader dans l'expression des chablis. Vins minéraux et purs, parfaitement représentatifs du terroir calcaire de Chablis.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Clos — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">80.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros Côte de Bouguerots — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">77.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Preuses — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">63.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Valmur — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">58.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Vaudésir — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">61.10 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">49.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Clos — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">80.10 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros Côte de Bouguerots — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">77.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Preuses — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">63.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">48.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">44.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Preuses — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">44.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er Cru Vaulorent — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">40.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er Cru Montée de Tonnerre — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">41.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er Cru Fourchaume — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">33.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er Cru Vaulorent — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er Cru Montée de Tonnerre — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">41.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er Cru Fourchaume — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">32.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis — Domaine</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">14.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">13.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Petit Chablis</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">12.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Bris</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">9.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros Côte de Bouguerots — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">133.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Clos — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">154.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros Côte de Bouguerots — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">141.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Clos — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">169.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Les Clos — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">176.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">107.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">97.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">97.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Grand Cru Bougros — Domaine</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">97.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/t8R5dVhZT0SxQqX3_W_bnA_375x500.jpg" alt="Domaine Maréchal" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Maréchal</div>
+        <div class="domain-location">Auxey-Duresses</div>
+        
+        <div class="domain-description">Petit domaine du sud de la Côte de Beaune avec une sélection de vins régionaux bien faits. Vins accessibles et expressifs.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne « Cuvée Antoine »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">12.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Savigny-lès-Beaune (blanc)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">25.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Ladoix « Les Chaillots »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">21.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne « Cuvée Gravel »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chorey-lès-Beaune</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">21.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chorey-lès-Beaune</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">21.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune « Vieilles Vignes »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">23.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune « Vieilles Vignes »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">24.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Beaune « Les Bons Feuvres »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">24.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune 1er Cru « Les Lavières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">32.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune 1er Cru « Les Lavières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">31.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Volnay</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">32.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard « La Chanière »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">31.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard « La Chanière »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">32.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne « Cuvée Gravel »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">37.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune « Vieilles Vignes »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">53.10 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard « La Chanière »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">72.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne « Cuvée Gravel »</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">9.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chorey-lès-Beaune</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">11.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune « Vieilles Vignes »</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">12.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard « La Chanière »</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">17.70 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/z0NJHWx2T4eYGwz0_375x500.jpg" alt="Domaine Fabien Coche" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Fabien Coche</div>
+        <div class="domain-location">Meursault, Côte de Beaune</div>
+        
+        <div class="domain-description">Domaine prestigieux de Meursault spécialisé dans les grands blancs de Bourgogne. Fabien Coche perpétue l'excellence vinicole de sa région avec des vins d'une grande finesse et complexité.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté « Vieilles Vignes »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">11.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Romain</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">23.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne « Côte d’Or » Chardonnay</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Aubin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">23.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Auxey-Duresses (blanc)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Monthélie (blanc)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">24.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Aubin 1er Cru « Les Combes »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Monthélie 1er Cru « Les Duresses »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">32.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault (blanc)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">36.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault « Les Gruyaches »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">38.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault « Le Limozin »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">39.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault « Les Luchets »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">43.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault « Les Chevalières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">39.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault « Clos du Pré de Manche »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023/2024</div>
+      <div class="wine-price">43.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Chassagne-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">46.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault 1er Cru « Charmes »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault 1er Cru « Goutte d’Or »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">75.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault 1er Cru « Perrières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">150.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet 1er Cru « Folatières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">80.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bâtard-Montrachet Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">400.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Côte d’Or Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">15.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">15.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Auxey-Duresses (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Auxey-Duresses (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">20.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Auxey-Duresses (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">20.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Meursault (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">28.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Meursault (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Meursault (rouge)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Auxey-Duresses 1er Cru « Les Ecusseaux »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Auxey-Duresses 1er Cru « Les Ecusseaux »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Monthélie 1er Cru « Les Barbières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Monthélie 1er Cru « Les Barbières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard Vieille Vigne</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">35.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard 1er Cru « La Platière »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">41.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard 1er Cru « La Platière »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">41.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Charmes-Chambertin Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">190.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Charmes-Chambertin Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">190.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Auxey-Duresses</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne Aligoté « Vieilles Vignes »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">11.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Romain</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">23.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Aubin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">23.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne « Côte d’Or » Chardonnay</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Monthélie</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">24.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Saint-Aubin Les COMBES 1er CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Monthélie Les Duresses 1er CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">32.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">36.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault « les Gruyaches »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">38.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault « le Limozin »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">39.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault « les Chevalières »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">39.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault « les Luchets »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">43.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault « Clos du Pré de Manche »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">43.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault « Clos du Pré de Manche »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">43.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chassagne-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">46.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault-CHARMES 1er CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">65.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault-GOUTTE D’OR 1er CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">75.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault-PERRIÈRES 1er CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">150.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Puligny-Montrachet FOLATIÈRES 1er CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">80.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bâtard-Montrachet GRAND CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">400.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bâtard-Montrachet GRAND CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">400.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne Côte D’Or Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne Côte D’Or Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">15.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Auxey-Duresses</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Auxey-Duresses</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">20.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Auxey-Duresses</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">20.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">28.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Meursault</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Auxey-Duresses 1er CRU Les ECUSSEAUX</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Auxey-Duresses 1er CRU Les ECUSSEAUX</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Monthelie 1er CRU Les BARBIERES</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Monthelie 1er CRU Les BARBIERES</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pommard Vieille Vigne</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">35.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pommard 1er CRU La PLATIERE</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">41.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Pommard 1er CRU La PLATIERE</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">41.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Charmes-Chambertin GRAND CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">190.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Charmes-Chambertin GRAND CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">190.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/bK2T8NTfT0KyJ6d5xMqNqA_375x500.jpg" alt="Château de Chamirey" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Château de Chamirey</div>
+        <div class="domain-location">Mercurey</div>
+        
+        <div class="domain-description">Belle propriété de Mercurey produisant des pinots noirs structurés. Vins classiques de Bourgogne méridionale.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Mercurey blanc</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/w6_KdgWUT0G5R0F_8vxXhA_375x500.jpg" alt="Domaine d'Henri" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine d'Henri</div>
+        <div class="domain-location">Gevrey-Chambertin</div>
+        
+        <div class="domain-description">Domaine traditionnel de Gevrey-Chambertin produisant des pinots noirs puissants et élégants. Vins de belle garde.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Saint Pierre</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">30.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Saint Pierre</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">73.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">110.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">105.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">46.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">120.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Homme Mort</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">55.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Homme Mort</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">141.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Homme Mort</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2019</div>
+      <div class="wine-price">67.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Homme Mort</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2019</div>
+      <div class="wine-price">147.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Homme Mort</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2017</div>
+      <div class="wine-price">70.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Homme Mort</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2017</div>
+      <div class="wine-price">153.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">74.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">161.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">81.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">175.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2019</div>
+      <div class="wine-price">85.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2019</div>
+      <div class="wine-price">183.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Méthode Ancestrale, dégorgé 02/2026 - 4g de sucre résiduel</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">12.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">13.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis Saint Pierre</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">15.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne Blanc</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">9.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Petit Chablis</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Troesmes</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">23.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Vaulorent</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">27.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis 1er cru Fourchaume Héritage</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">37.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Chablis</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">26.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/kF8y5oT6T0Oxr2Z9dJmU8A_375x500.jpg" alt="Clos du Calvaire" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Clos du Calvaire</div>
+        <div class="domain-location">Saint-Joseph</div>
+        
+        <div class="domain-description">Producteur du nord du Rhône spécialisé dans les syrah. Vins puissants et élégants du Saint-Joseph.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Côtes du Rhône - « éclat »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">9.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Clos du Calvaire</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">21.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Les Terres de la Crau</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">28.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Les Terres de la Crau</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">29.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Clos du Calvaire</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">21.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Père Pape</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">33.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Père Pape</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">33.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Père Pape</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">36.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Clos du Calvaire</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">48.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Clos du Calvaire</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">47.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Les Terres de la Crau</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">63.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Les Terres de la Crau</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">62.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Père Pape</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">72.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Châteauneuf-du-Pape Père Pape</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">78.20 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/ZhLqpWJxT0W9XgNxQmr_mw_375x500.jpg" alt="Domaine Lassarat" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Lassarat</div>
+        <div class="domain-location">Samtenay</div>
+        
+        <div class="domain-description">Producteur artisanal produisant des vins authentiques et bien structurés. Petit domaine avec une vraie personnalité.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Mâcon Vergisson « La Roche »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">27.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Mâcon Vergisson « La Roche »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">12.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Prestige » BIO</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">12.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Plaisir » BIO</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">11.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Prestige » BIO</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">7.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Prestige » BIO</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">27.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé « Terroir » BIO</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">8.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé « Terroir » BIO</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">15.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé « Terroir » BIO</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">9.70 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé « Terroir » BIO</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">14.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé « Terroir » BIO</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">33.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Les Mûres »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">17.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Les Mûres »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">36.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Les Cras »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">17.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">St Véran « Les Cras »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">37.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé « Racine »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2016</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru Clos du Martelet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">18.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru Clos du Martelet</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">37.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru En France « Clos de France »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">18.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru En France « Clos de France »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">39.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru En France « Clos de France »</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">110.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru Sur La Roche</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">21.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru Sur La Roche</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">42.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru Sur La Roche</div>
+      <div class="wine-format">300 cl Jéroboam</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">114.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Pouilly Fuissé 1er Cru Sur La Roche</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2018</div>
+      <div class="wine-price">42.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/ZhLqpWJxT0W9XgNxQmr_mw_375x500.jpg" alt="Domaine Lassarat" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Lassarat</div>
+        <div class="domain-location">Samtenay</div>
+        
+        <div class="domain-description">Producteur artisanal produisant des vins authentiques et bien structurés. Petit domaine avec une vraie personnalité.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Moulin à Vents VV 34</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2015</div>
+      <div class="wine-price">14.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Moulin à Vents VV 34</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2015</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Moulin à Vents 4 Terres</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2020</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Moulin à Vents 4 Terres</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2018</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/Gl5x9YT2T0Wh1qBhBG1Jjg_375x500.jpg" alt="Domaine Chevalier" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Chevalier</div>
+        <div class="domain-location">Puligny-Montrachet</div>
+        
+        <div class="domain-description">Producteur de Puligny-Montrachet avec une sélection de blancs fins. Chardonnays élégants et complexes.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Bourgogne</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">10.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Corton-Charlemagne GRAND CRU</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">202.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Corton GRAND CRU « Le Rognet »</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">33.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Corton GRAND CRU « Le Rognet »</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">66.65 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Corton GRAND CRU « Le Rognet »</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">135.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Ladoix</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">16.65 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">50.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">50.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">202.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Corton-Charlemagne Grand Cru</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">202.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ladoix 1er Cru "Les Grechons"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ladoix 1er Cru "Les Grechons"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ladoix 1er Cru "Les Grechons"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">82.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ladoix</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">20.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ladoix</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">42.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne "Domaine Chevalier"</div>
+      <div class="wine-format">37.5 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">10.85 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne "Domaine Chevalier"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">20.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">8.35 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">17.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/Nx4pAYDjT0Oq3zTH6S8c-A_375x500.jpg" alt="Domaine Larue" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Larue</div>
+        <div class="domain-location">Chorey-les-Beaune</div>
+        
+        <div class="domain-description">Domaine traditionnel produisant des vins régionaux bien structurés. Bonne qualité-prix avec une belle expression du fruit.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">9.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Aubin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">18.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Aubin 1er Cru "Murgers des Dents de Chien"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne "Les Buees"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">13.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Aubin 1er Cru "Sous Roche Dumay"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">23.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Saint-Aubin 1er Cru "Murgers des Dents de Chien"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">64.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Chassagne-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault "Au Murger de Monthelie"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet "Le Trezin"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">31.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet 1er Cru "Sous le Puits"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">39.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet 1er Cru "La Garenne"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">44.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet 1er Cru "La Garenne"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">90.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Côte d'Or</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">12.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Saint-Aubin 1er Cru "Sentier du Clou"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Aloxe-Corton</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "La Boudriotte"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">33.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Blagny 1er Cru "Sous le Puits"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">33.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Corton "Les Perrières" Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">48.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">●</div>
+      <div class="wine-name">Crémant</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">9.00 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/T_8KN5TcT0C5XxU9qGkLBQ_375x500.jpg" alt="Gouffier" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Gouffier</div>
+        <div class="domain-location">Meursault</div>
+        
+        <div class="domain-description">Petit producteur de Meursault spécialisé dans les blancs. Chardonnays typés avec belle expression du terroir.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté "Aquaviva"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">7.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté "En Rateaux"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">7.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Montagny "Les Bassets"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">14.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Montagny 1er Cru "Les Jardins"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">16.95 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Rully "Les Maizières"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">14.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Côte Chalonnaise Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">7.45 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Côte Chalonnaise "Cuvée Baudron"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">9.95 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Mercurey "La Charmée"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">14.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Mercurey 1er Cru "Champs Martin"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">17.75 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/DxPfjUq9T0CqyR1Rjd8FYQ_375x500.jpg" alt="Domaine Girardin" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Girardin</div>
+        <div class="domain-location">Pommard</div>
+        
+        <div class="domain-description">Producteur traditionnel de Pommard avec une belle collection de pinots noirs puissants et structurés. Vins représentatifs du terroir de Pommard.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Santenay 1er Cru "Beaurepaire"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">23.55 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Chardonnay</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">10.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Santenay "Les Terrasses de Bievaux"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">18.85 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne "Saint Martin"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">13.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Santenay "Les Terrasses de Bievaux"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">18.85 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">38.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault "Les Pelles"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault "Les Pelles"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault "Les Clous"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">41.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Meursault "Les Clous"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">41.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">49.45 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "Morgeot"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">64.75 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">49.45 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "Morgeot"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">64.75 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Puligny-Montrachet 1er Cru "Les Chalumeaux"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">116.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Corton-Charlemagne "Grand Cru"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">188.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">11.45 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">11.45 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Maranges "Vieilles Vignes"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">14.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Côte de Beaune Villages "Santenay"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">14.15 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">"Vieilles Vignes" (appellation non précisée)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.35 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune "Les Gollardes"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">16.75 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Santenay 1er Cru "Clos Rousseau"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">20.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Santenay 1er Cru "La Maladière"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">20.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Santenay 1er Cru "Beauregard"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">20.85 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Savigny-lès-Beaune 1er Cru "Les Peuillets"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">22.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Volnay</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">29.45 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">30.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "Morgeot"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">40.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard "Les Vignots"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">30.65 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "La Boudriotte"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">35.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "La Boudriotte"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">41.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "Clos St Jean"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">35.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "Clos St Jean"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">41.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "La Maltroie"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">35.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Pommard 1er Cru "Grands Epenots"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">65.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chassagne-Montrachet 1er Cru "La Maltroie"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022/2023</div>
+      <div class="wine-price">41.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Clos Vougeot</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2021</div>
+      <div class="wine-price">165.60 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/cHoU1jdgT0uuZ-8nJ0y9Kw_375x500.jpg" alt="Domaine Lécheneaut" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine Lécheneaut</div>
+        <div class="domain-location">Nuits-Saint-Georges</div>
+        
+        <div class="domain-description">Domaine respecté de la Côte de Nuits produisant des pinots noirs d'une grande finesse et d'une belle complexité. Vins de gastronomie.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Pinot Blanc</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">15.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Gevrey-Chambertin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">35.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Hautes Côtes de Nuits Rouge</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">17.65 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges "Au Chouillet"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">37.05 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chorey-lès-Beaune</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">22.95 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Les Damodes"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Les Pruliers"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Au Argillas"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Clos de la Roche Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">171.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Aligoté</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">8.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Hautes Côtes de Nuits Blanc</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">15.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Bourgogne Pinot Blanc</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">15.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Hautes Côtes de Nuits Rouge</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">15.30 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Gevrey-Chambertin</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">35.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chorey-lès-Beaune</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">22.95 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Morey-Saint-Denis</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">33.55 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Morey-Saint-Denis</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">70.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Vosne-Romanée</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">41.20 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Clos de la Roche Grand Cru</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">171.80 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">33.55 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">70.60 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges "Au Chouillet"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">37.05 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges "Au Chouillet"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">80.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Au Argillas"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Les Pruliers"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Les Damodes"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">60.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Les Damodes"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">123.55 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Nuits-Saint-Georges 1er Cru "Les Pruliers"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">123.55 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">17.05 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Aloxe-Corton 1er Cru "Les Petites Lolières"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">48.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Morey-Saint-Denis 1er Cru "Les Charrières"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2022</div>
+      <div class="wine-price">61.75 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Bourgogne Pinot Noir</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">17.05 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Aloxe-Corton 1er Cru "Les Petites Lolières"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">48.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Aloxe-Corton 1er Cru "Les Petites Lolières"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">100.00 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Morey-Saint-Denis 1er Cru "Les Charrières"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">61.75 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Morey-Saint-Denis 1er Cru "Les Charrières"</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">129.40 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chambolle-Musigny "Aux Beaux Bruns"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">57.65 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Chambolle-Musigny 1er Cru "Les Gruenchers"</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2023</div>
+      <div class="wine-price">91.75 €</div>
+    </div>
+    </div>
+
+    <div class="domain-card">
+      <div class="domain-photo">
+        <img src="https://images.vivino.com/thumbs/5PxUr5T8T0SqKvF4sLwN3Q_375x500.jpg" alt="Domaine de Fondrèche" loading="lazy">
+      </div>
+      <div class="domain-info">
+        <div class="domain-name">Domaine de Fondrèche</div>
+        <div class="domain-location">Gigondas</div>
+        <div class="domain-certifications">🌿</div>
+        <div class="domain-description">Domaine du sud du Rhône produisant les grenaches puissants de Gigondas. Vins authentiques avec belle concentration.</div>
+      </div>
+    </div>
+    <div class="wines-list">
+      <div class="wines-header">
+        <div></div>
+        <div>Cuvée</div>
+        <div>Format</div>
+        <div>Millésime</div>
+        <div>Prix</div>
+      </div>
+      
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">8.15 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">50 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">8.15 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">50 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🌸</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">8.15 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🌸</div>
+      <div class="wine-name">Ventoux (Domaine)</div>
+      <div class="wine-format">50 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">5.90 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Altineo</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">⚪</div>
+      <div class="wine-name">Altineo</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">36.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Altineo</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">Altineo</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2024</div>
+      <div class="wine-price">36.25 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">N… (sans soufre)</div>
+      <div class="wine-format">75 cl</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">8.15 €</div>
+    </div>
+    <div class="wine-row">
+      <div class="wine-color">🔴</div>
+      <div class="wine-name">N… (sans soufre)</div>
+      <div class="wine-format">150 cl Magnum</div>
+      <div class="wine-vintage">2025</div>
+      <div class="wine-price">17.50 €</div>
+    </div>
+    </div>
+
+  </div>
+</body>
+</html>

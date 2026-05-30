@@ -1,0 +1,220 @@
+{
+  "domains": [
+    {
+      "id": "domaine-fabien-coche",
+      "name": "Domaine Fabien Coche",
+      "region": "Bourgogne",
+      "location": "Meursault, Côte de Beaune",
+      "description": "Domaine prestigieux de Meursault spécialisé dans les grands blancs de Bourgogne. Fabien Coche perpétue l'excellence vinicole de sa région avec des vins d'une grande finesse et complexité.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/z0NJHWx2T4eYGwz0_375x500.jpg"
+    },
+    {
+      "id": "bouchard",
+      "name": "Bouchard",
+      "region": "Bourgogne",
+      "location": "Beaune, Côte de Beaune",
+      "description": "Maison historique et respectable de Bourgogne avec une longue tradition de production de vins fins. Représente l'excellence bourguignonne avec une sélection large de crus.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/oy-K7HnCT0qFLUJMhMnJHw_375x500.jpg"
+    },
+    {
+      "id": "brunier",
+      "name": "Brunier",
+      "region": "Vallée du Rhône",
+      "location": "Châteauneuf-du-Pape",
+      "description": "Domaine réputé du sud du Rhône produisant des vins puissants et élégants. Spécialisé dans les grenaches et syrah avec une belle expression du terroir de Châteauneuf-du-Pape.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/v2y8BLQ_T0OzwD6Fn6awOQ_375x500.jpg"
+    },
+    {
+      "id": "domaine-girardin",
+      "name": "Domaine Girardin",
+      "region": "Bourgogne",
+      "location": "Pommard",
+      "description": "Producteur traditionnel de Pommard avec une belle collection de pinots noirs puissants et structurés. Vins représentatifs du terroir de Pommard.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/DxPfjUq9T0CqyR1Rjd8FYQ_375x500.jpg"
+    },
+    {
+      "id": "domaine-lechenault",
+      "name": "Domaine Lécheneaut",
+      "region": "Bourgogne",
+      "location": "Nuits-Saint-Georges",
+      "description": "Domaine respecté de la Côte de Nuits produisant des pinots noirs d'une grande finesse et d'une belle complexité. Vins de gastronomie.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/cHoU1jdgT0uuZ-8nJ0y9Kw_375x500.jpg"
+    },
+    {
+      "id": "domaine-serol",
+      "name": "Domaine Sérol",
+      "region": "Loire",
+      "location": "Saint-Pourçain-sur-Sioule",
+      "description": "Producteur de Saint-Pourçain spécialisé dans les vins régionaux authentiques. Vins expressifs avec un bon rapport qualité-prix.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/k_tMQvMWT0KqJiR8Lz-nxQ_375x500.jpg"
+    },
+    {
+      "id": "domaine-mongeard-mugneret",
+      "name": "Domaine Mongeard-Mugneret",
+      "region": "Bourgogne",
+      "location": "Vosne-Romanée",
+      "description": "Grand domaine de la Côte de Nuits avec une belle collection de grands crus et premiers crus. Pinots noirs élégants et racés.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/Uc_dMJhGT0O6a_f8P7CgRg_375x500.jpg"
+    },
+    {
+      "id": "domaine-william-fevre",
+      "name": "Domaine William Fèvre",
+      "region": "Bourgogne",
+      "location": "Chablis",
+      "description": "Grande maison de Chablis, leader dans l'expression des chablis. Vins minéraux et purs, parfaitement représentatifs du terroir calcaire de Chablis.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/5f-vT5ZZT0SMuB-xY_x4Rg_375x500.jpg"
+    },
+    {
+      "id": "domaine-lassarat",
+      "name": "Domaine Lassarat",
+      "region": "Bourgogne",
+      "location": "Samtenay",
+      "description": "Producteur artisanal produisant des vins authentiques et bien structurés. Petit domaine avec une vraie personnalité.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/ZhLqpWJxT0W9XgNxQmr_mw_375x500.jpg"
+    },
+    {
+      "id": "domaine-dhenri",
+      "name": "Domaine d'Henri",
+      "region": "Bourgogne",
+      "location": "Gevrey-Chambertin",
+      "description": "Domaine traditionnel de Gevrey-Chambertin produisant des pinots noirs puissants et élégants. Vins de belle garde.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/w6_KdgWUT0G5R0F_8vxXhA_375x500.jpg"
+    },
+    {
+      "id": "vignobles-des-cabottes",
+      "name": "Vignobles des Cabottes",
+      "region": "Bourgogne",
+      "location": "Santenay",
+      "description": "Petit vignoble produisant des vins régionaux authentiques avec caractère. Bonne expression du terroir côte-d'orien.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/O_L1hKgZT0CWU0QVfg-WJA_375x500.jpg"
+    },
+    {
+      "id": "domaine-marechal",
+      "name": "Domaine Maréchal",
+      "region": "Bourgogne",
+      "location": "Auxey-Duresses",
+      "description": "Petit domaine du sud de la Côte de Beaune avec une sélection de vins régionaux bien faits. Vins accessibles et expressifs.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/t8R5dVhZT0SxQqX3_W_bnA_375x500.jpg"
+    },
+    {
+      "id": "domaine-la-soufrandiere",
+      "name": "Domaine La Soufrandière",
+      "region": "Bourgogne",
+      "location": "Vergisson, Mâconnais",
+      "description": "Petit domaine du Mâconnais spécialisé dans les chardonnays. Vins purs et minéraux avec une belle minéralité.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/HkXgPxJYT0KQCH9pJ1SKIA_375x500.jpg"
+    },
+    {
+      "id": "champagne-valentin-leflaive",
+      "name": "Champagne Valentin Leflaive",
+      "region": "Champagne",
+      "location": "Cumières",
+      "description": "Producteur de Champagne artisanal produisant des bulles élégantes et fines. Vins aux dosages classiques et équilibrés.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/ZZVhScYvT0K7jJ3_C3YcAg_375x500.jpg"
+    },
+    {
+      "id": "domaine-larue",
+      "name": "Domaine Larue",
+      "region": "Bourgogne",
+      "location": "Chorey-les-Beaune",
+      "description": "Domaine traditionnel produisant des vins régionaux bien structurés. Bonne qualité-prix avec une belle expression du fruit.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/Nx4pAYDjT0Oq3zTH6S8c-A_375x500.jpg"
+    },
+    {
+      "id": "domaine-chevalier",
+      "name": "Domaine Chevalier",
+      "region": "Bourgogne",
+      "location": "Puligny-Montrachet",
+      "description": "Producteur de Puligny-Montrachet avec une sélection de blancs fins. Chardonnays élégants et complexes.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/Gl5x9YT2T0Wh1qBhBG1Jjg_375x500.jpg"
+    },
+    {
+      "id": "domaine-de-la-realitiere",
+      "name": "Domaine de la Réaltière",
+      "region": "Provence",
+      "location": "Draguignan",
+      "description": "Domaine provençal produisant des rosés et rouges méditerranéens. Vins frais avec belle minéralité caractéristique de Provence.",
+      "certifications": ["Bio"],
+      "photo": "https://images.vivino.com/thumbs/T5BPQ4T5T0Kxw9e6wYT5UQ_375x500.jpg"
+    },
+    {
+      "id": "champagne-pierre-paillard",
+      "name": "Champagne Pierre Paillard",
+      "region": "Champagne",
+      "location": "Reims",
+      "description": "Champagne de style traditionnel avec une belle richesse et complexité. Producteur reconnu pour ses cuvées prestige.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/RfkN9mT4T0Wv3hX8tZaQ5g_375x500.jpg"
+    },
+    {
+      "id": "clos-du-calvaire",
+      "name": "Clos du Calvaire",
+      "region": "Vallée du Rhône",
+      "location": "Saint-Joseph",
+      "description": "Producteur du nord du Rhône spécialisé dans les syrah. Vins puissants et élégants du Saint-Joseph.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/kF8y5oT6T0Oxr2Z9dJmU8A_375x500.jpg"
+    },
+    {
+      "id": "domaine-de-fondreche",
+      "name": "Domaine de Fondrèche",
+      "region": "Vallée du Rhône",
+      "location": "Gigondas",
+      "description": "Domaine du sud du Rhône produisant les grenaches puissants de Gigondas. Vins authentiques avec belle concentration.",
+      "certifications": ["Bio"],
+      "photo": "https://images.vivino.com/thumbs/5PxUr5T8T0SqKvF4sLwN3Q_375x500.jpg"
+    },
+    {
+      "id": "bret-brothers",
+      "name": "Bret Brothers",
+      "region": "Beaujolais",
+      "location": "Morgon",
+      "description": "Producteur de Morgon en agriculture biologique. Beaujolais crus avec belle expression du fruit et belle minéralité.",
+      "certifications": ["Bio"],
+      "photo": "https://images.vivino.com/thumbs/kB5xJ4TaT0OuM1j5gPnYfA_375x500.jpg"
+    },
+    {
+      "id": "gouffier",
+      "name": "Gouffier",
+      "region": "Bourgogne",
+      "location": "Meursault",
+      "description": "Petit producteur de Meursault spécialisé dans les blancs. Chardonnays typés avec belle expression du terroir.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/T_8KN5TcT0C5XxU9qGkLBQ_375x500.jpg"
+    },
+    {
+      "id": "champagne-girard-bonnet",
+      "name": "Champagne Girard-Bonnet",
+      "region": "Champagne",
+      "location": "Cramant",
+      "description": "Champagne d'artisan du village blanc de Cramant. Bulles fines et élégantes.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/gY_K1pTeT0WrT5jC7xvXOg_375x500.jpg"
+    },
+    {
+      "id": "chateau-de-chamirey",
+      "name": "Château de Chamirey",
+      "region": "Bourgogne",
+      "location": "Mercurey",
+      "description": "Belle propriété de Mercurey produisant des pinots noirs structurés. Vins classiques de Bourgogne méridionale.",
+      "certifications": [],
+      "photo": "https://images.vivino.com/thumbs/bK2T8NTfT0KyJ6d5xMqNqA_375x500.jpg"
+    }
+  ]
+}

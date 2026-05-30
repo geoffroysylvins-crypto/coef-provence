@@ -1,0 +1,86 @@
+{
+  "_comment": "Configuration Claude pour le projet N8N Consultant",
+  "_instructions": "Copiez cette configuration dans ~/.claude/claude_desktop_config.json",
+
+  "mcpServers": {
+    "n8n-mcp": {
+      "_comment": "Option 1: Service hébergé (recommandé)",
+      "url": "https://dashboard.n8n-mcp.com",
+      "apiKey": "https://geoffroy-sylvins.app.n8n.cloud/settings/apiHBOARD",
+      "_instructions": "Obtenez votre clé sur: https://dashboard.n8n-mcp.com",
+      "_advantages": [
+        "100 tool calls/jour gratuits",
+        "Toujours à jour (1,204 nodes)",
+        "Zéro maintenance",
+        "Pas besoin de Node.js"
+      ]
+    },
+
+    "n8n-mcp-local": {
+      "_comment": "Option 2: NPX local (si vous avez Node.js et N8N local)",
+      "command": "npx",
+      "args": ["n8n-mcp"],
+      "env": {
+        "MCP_MODE": "stdio",
+        "LOG_LEVEL": "info",
+        "N8N_API_URL": "http://localhost:5678",
+        "N8N_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWQxYzFhMy01NjIzLTQ3YzUtOGQ3Yy1kNzY0MjRhZDk1MjMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzcwNTQ2MzkyfQ.3tnzckUJ7wvrORL7NtGIaH_0boeKmMYwVjLic49vyMsN8N",
+        "_optional_env": {
+          "N8N_MCP_TELEMETRY_DISABLED": "true",
+          "SQLJS_SAVE_INTERVAL_MS": "30000"
+        }
+      },
+      "_note": "Décommentez cette section et commentez 'n8n-mcp' ci-dessus pour utiliser NPX"
+    },
+
+    "n8n-mcp-docker": {
+      "_comment": "Option 3: Docker (production - image 82% plus petite)",
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e", "MCP_MODE=stdio",
+        "-e", "N8N_API_URL=http://host.docker.internal:5678",
+        "-e", "N8N_API_KEY=VOTeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWQxYzFhMy01NjIzLTQ3YzUtOGQ3Yy1kNzY0MjRhZDk1MjMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzcwNTQ2MzkyfQ.3tnzckUJ7wvrORL7NtGIaH_0boeKmMYwVjLic49vyMsE_API_KEY_N8N",
+        "ghcr.io/czlonkowski/n8n-mcp:latest"
+      ],
+      "_note": "Décommentez cette section et commentez 'n8n-mcp' ci-dessus pour utiliser Docker"
+    }
+  },
+
+  "_skills": {
+    "_installation": "/plugin install czlonkowski/n8n-skills",
+    "_skills_list": [
+      "n8n Expression Syntax",
+      "n8n MCP Tools Expert (prioritaire)",
+      "n8n Workflow Patterns",
+      "n8n Validation Expert",
+      "n8n Node Configuration",
+      "n8n Code JavaScript",
+      "n8n Code Python"
+    ],
+    "_documentation": "https://github.com/czlonkowski/n8n-skills"
+  },
+
+  "_statistics": {
+    "nodes_available": 1204,
+    "templates_indexed": 2737,
+    "mcp_tools": 7,
+    "ai_tools": 265,
+    "coverage": {
+      "documentation": "87%",
+      "node_properties": "99%",
+      "operations": "63.6%"
+    }
+  },
+
+  "_resources": {
+    "n8n_mcp_github": "https://github.com/czlonkowski/n8n-mcp",
+    "n8n_skills_github": "https://github.com/czlonkowski/n8n-skills",
+    "dashboard": "https://dashboard.n8n-mcp.com",
+    "website": "https://www.n8n-skills.com",
+    "n8n_docs": "https://docs.n8n.io",
+    "n8n_community": "https://community.n8n.io"
+  }
+}
