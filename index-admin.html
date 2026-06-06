@@ -1,3 +1,708 @@
-<!DOCTYPE html><html><head><title>Admin</title></head>
-<body><h1>📊 Dashboard</h1></body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Sylvins</title>
+  <script src="audit-logger.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-info {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .user-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .user-badge strong {
+      display: block;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 14px;
+    }
+
+    .btn-logout:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .section h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #667eea;
+      color: #667eea;
+    }
+
+    .section h3 {
+      font-size: 16px;
+      margin: 15px 0 10px 0;
+      color: #555;
+    }
+
+    .permission-box {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+      border-left: 4px solid #667eea;
+    }
+
+    .permission-box strong {
+      color: #667eea;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .permission-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .permission-tag {
+      background: #e8f0fe;
+      color: #667eea;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 13px;
+      border: 1px solid #d0e0fd;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .catalog-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .catalog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .catalog-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .catalog-card p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .audit-log {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+      font-size: 13px;
+      border-left: 3px solid #999;
+    }
+
+    .audit-log.login {
+      border-left-color: #4caf50;
+    }
+
+    .audit-log.access {
+      border-left-color: #2196f3;
+    }
+
+    .audit-log.logout {
+      border-left-color: #ff9800;
+    }
+
+    .audit-timestamp {
+      color: #999;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .alert {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+      color: #856404;
+    }
+
+    .alert.error {
+      background: #f8d7da;
+      border-color: #f5c6cb;
+      color: #721c24;
+    }
+
+    .alert.success {
+      background: #d4edda;
+      border-color: #c3e6cb;
+      color: #155724;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-box .number {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-box .label {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    footer {
+      background: #f5f5f5;
+      border-top: 1px solid #ddd;
+      padding: 20px;
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+      margin-top: 40px;
+    }
+
+    .not-authorized {
+      background: white;
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .not-authorized h2 {
+      color: #c33;
+      margin-bottom: 15px;
+    }
+
+    .not-authorized p {
+      color: #666;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with user info -->
+  <header>
+    <div class="header-content">
+      <div>
+        <h1>📊 Sylvins Admin</h1>
+        <p id="subtitle" style="opacity: 0.9;"></p>
+      </div>
+      <div class="user-info">
+        <div class="user-badge">
+          <strong>Connecté en tant que:</strong>
+          <span id="user-name">-</span>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()">Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <div class="container">
+    <!-- Role-based access message -->
+    <div id="access-alert"></div>
+
+    <!-- User Profile Section -->
+    <div class="section">
+      <h2>👤 Profil</h2>
+      <div class="permission-box">
+        <strong>Email:</strong>
+        <span id="user-email">-</span>
+      </div>
+      <div class="permission-box">
+        <strong>Rôle:</strong>
+        <span id="user-role">-</span>
+      </div>
+    </div>
+
+    <!-- Permissions Section -->
+    <div class="section">
+      <h2>🔐 Permissions</h2>
+
+      <h3>Catalogues Autorisés:</h3>
+      <div class="permission-list" id="authorized-catalogs">
+        <span class="permission-tag">Chargement...</span>
+      </div>
+
+      <h3 style="margin-top: 20px;">Départements:</h3>
+      <div class="permission-list" id="authorized-departments">
+        <span class="permission-tag">Chargement...</span>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="section">
+      <h2>📈 Statistiques</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <div class="number" id="stat-catalogs">0</div>
+          <div class="label">Catalogues</div>
+        </div>
+        <div class="stat-box">
+          <div class="number" id="stat-departments">0</div>
+          <div class="label">Départements</div>
+        </div>
+        <div class="stat-box">
+          <div class="number" id="stat-logs">0</div>
+          <div class="label">Logs (Session)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Available Catalogs -->
+    <div class="section">
+      <h2>📚 Catalogues Disponibles</h2>
+      <p style="color: #666; margin-bottom: 15px;">Cliquez sur un catalogue pour y accéder:</p>
+      <div class="catalog-grid" id="catalogs-grid">
+        <p style="color: #999;">Chargement des catalogues...</p>
+      </div>
+    </div>
+
+    <!-- Audit Logs Section -->
+    <div class="section">
+      <h2>📋 Historique d'Accès</h2>
+      <p style="color: #666; margin-bottom: 15px;">Vos 10 dernières actions:</p>
+      <div id="audit-logs-container">
+        <p style="color: #999;">Aucune activité encore</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Portail Sylvins v2.0 | Déploiement automatisé avec Notion + GitHub Actions</p>
+    <p style="margin-top: 10px; opacity: 0.7;">Dernière mise à jour: <span id="footer-date"></span></p>
+  </footer>
+
+  <script>
+    // Global state
+    let currentUser = null;
+    let auditLogger = null;
+
+    // All available catalogs (should be synchronized with generated HTML files)
+    const AVAILABLE_CATALOGS = [
+      { name: 'CHR (Horeca)', id: 'chr-catalog', departments: ['83', '06', '13', '04', '05'] },
+      { name: 'Caviste', id: 'caviste-catalog', departments: ['83', '06', '13', '04', '05'] },
+      { name: 'Particuliers', id: 'particulier-catalog', departments: ['83', '06', '13', '04', '05'] },
+      { name: 'Palace Hotels', id: 'palace-catalog', departments: ['83', '06'] },
+    ];
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('📄 Admin dashboard loading...');
+
+      // Check authentication
+      if (!verifyAuthentication()) {
+        showNotAuthorized();
+        return;
+      }
+
+      // Initialize audit logger
+      initializeAuditLogger();
+
+      // Load and display user info
+      loadUserInfo();
+
+      // Render catalogs
+      renderCatalogs();
+
+      // Display audit logs
+      displayAuditLogs();
+
+      // Update footer date
+      document.getElementById('footer-date').textContent = new Date().toLocaleString('fr-FR');
+
+      // Log page access
+      if (auditLogger) {
+        auditLogger.log('page_access', 'admin-dashboard', {
+          url: window.location.href
+        });
+      }
+    });
+
+    /**
+     * Verify JWT authentication
+     */
+    function verifyAuthentication() {
+      const token = sessionStorage.getItem('sylvins_auth_token');
+      const email = sessionStorage.getItem('sylvins_user_email');
+
+      if (!token || !email) {
+        console.warn('❌ No authentication token found');
+        return false;
+      }
+
+      try {
+        // Parse JWT (basic validation)
+        const parts = token.split('.');
+        if (parts.length !== 3) {
+          console.warn('❌ Invalid JWT format');
+          return false;
+        }
+
+        const payload = JSON.parse(atob(parts[1]));
+
+        // Check expiration
+        if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
+          console.warn('❌ JWT token expired');
+          sessionStorage.clear();
+          return false;
+        }
+
+        // Store decoded payload
+        currentUser = payload;
+        console.log('✅ Authentication verified for:', email);
+        return true;
+
+      } catch (error) {
+        console.error('❌ JWT validation error:', error);
+        return false;
+      }
+    }
+
+    /**
+     * Initialize audit logger
+     */
+    function initializeAuditLogger() {
+      if (typeof window.auditLogger === 'undefined') {
+        console.warn('⚠️ auditLogger not available');
+        return;
+      }
+
+      auditLogger = window.auditLogger;
+      console.log('✅ Audit logger initialized');
+    }
+
+    /**
+     * Load and display user info
+     */
+    function loadUserInfo() {
+      const email = sessionStorage.getItem('sylvins_user_email');
+      const name = sessionStorage.getItem('sylvins_user_name');
+      const permissionsJson = sessionStorage.getItem('sylvins_user_permissions');
+
+      // Display basic info
+      document.getElementById('user-name').textContent = name || email.split('@')[0];
+      document.getElementById('user-email').textContent = email;
+      document.getElementById('subtitle').textContent = `Connecté en tant que ${name || email}`;
+
+      // Parse permissions
+      let permissions = {};
+      if (permissionsJson) {
+        try {
+          permissions = JSON.parse(permissionsJson);
+        } catch (e) {
+          console.error('Failed to parse permissions:', e);
+        }
+      }
+
+      // Display role
+      const role = permissions.role || 'viewer';
+      document.getElementById('user-role').textContent = capitalizeFirst(role);
+
+      // Display authorized catalogs
+      const catalogs = permissions.catalogs || [];
+      const catalogsContainer = document.getElementById('authorized-catalogs');
+      if (catalogs.length > 0) {
+        catalogsContainer.innerHTML = catalogs
+          .map(c => `<span class="permission-tag">📚 ${c}</span>`)
+          .join('');
+      } else {
+        catalogsContainer.innerHTML = '<span class="permission-tag">Aucun catalogue</span>';
+      }
+
+      // Display authorized departments
+      const departments = permissions.departments || [];
+      const deptContainer = document.getElementById('authorized-departments');
+      if (departments.length > 0) {
+        deptContainer.innerHTML = departments
+          .map(d => `<span class="permission-tag">📍 ${d}</span>`)
+          .join('');
+      } else {
+        deptContainer.innerHTML = '<span class="permission-tag">Aucun département</span>';
+      }
+
+      // Update stats
+      document.getElementById('stat-catalogs').textContent = catalogs.length;
+      document.getElementById('stat-departments').textContent = departments.length;
+
+      // Show access alert if viewer
+      if (role === 'viewer') {
+        const alertEl = document.getElementById('access-alert');
+        alertEl.className = 'alert';
+        alertEl.innerHTML = `
+          <strong>👁️ Mode Lecture Seule</strong><br>
+          Vous avez accès en lecture aux catalogues autorisés.
+          Contactez un administrateur pour demander des modifications.
+        `;
+      }
+    }
+
+    /**
+     * Render available catalogs
+     */
+    function renderCatalogs() {
+      const permissions = currentUser?.permissions || {};
+      const authorizedCatalogs = permissions.catalogs || [];
+
+      const grid = document.getElementById('catalogs-grid');
+
+      if (authorizedCatalogs.length === 0) {
+        grid.innerHTML = `
+          <div class="alert error" style="grid-column: 1/-1;">
+            <strong>Accès refusé</strong><br>
+            Vous n'avez accès à aucun catalogue. Contactez un administrateur.
+          </div>
+        `;
+        return;
+      }
+
+      // Filter catalogs based on permissions
+      const filteredCatalogs = AVAILABLE_CATALOGS.filter(c =>
+        authorizedCatalogs.some(auth => auth.toLowerCase().includes(c.name.toLowerCase()))
+      );
+
+      if (filteredCatalogs.length === 0) {
+        grid.innerHTML = `
+          <p style="color: #999; grid-column: 1/-1;">
+            Aucun catalogue correspondant à vos permissions
+          </p>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filteredCatalogs
+        .map(catalog => `
+          <a href="javascript:void(0)" class="catalog-card" onclick="handleCatalogAccess('${catalog.id}', event)">
+            <div>
+              <h3>${catalog.name}</h3>
+              <p>Accédez au catalogue ${catalog.name.toLowerCase()}</p>
+            </div>
+            <p style="font-size: 12px; margin-top: 10px;">→ Ouvrir</p>
+          </a>
+        `)
+        .join('');
+    }
+
+    /**
+     * Handle catalog access
+     */
+    function handleCatalogAccess(catalogId, event) {
+      event.preventDefault();
+
+      // Log access
+      if (auditLogger) {
+        auditLogger.log('access_catalog', catalogId, {
+          catalog: catalogId,
+          timestamp: new Date().toISOString()
+        });
+      }
+
+      console.log('📖 Accessing catalog:', catalogId);
+      // TODO: Redirect to actual catalog page
+      // window.location.href = `${catalogId}.html`;
+    }
+
+    /**
+     * Display audit logs
+     */
+    function displayAuditLogs() {
+      const logs = JSON.parse(localStorage.getItem('audit_logs') || '[]');
+      const container = document.getElementById('audit-logs-container');
+
+      if (logs.length === 0) {
+        container.innerHTML = '<p style="color: #999;">Aucune activité encore</p>';
+        return;
+      }
+
+      // Sort by timestamp descending and take last 10
+      const recentLogs = logs
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        .slice(0, 10);
+
+      // Update stats
+      document.getElementById('stat-logs').textContent = logs.length;
+
+      // Render logs
+      container.innerHTML = recentLogs
+        .map(log => {
+          const date = new Date(log.timestamp);
+          const timeStr = date.toLocaleString('fr-FR');
+          const actionLabel = getActionLabel(log.action);
+
+          return `
+            <div class="audit-log ${log.action}">
+              <strong>${actionLabel}</strong>: ${log.resource || 'N/A'}
+              <div class="audit-timestamp">${timeStr}</div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    /**
+     * Get human-readable action label
+     */
+    function getActionLabel(action) {
+      const labels = {
+        'login': '🔐 Connexion',
+        'logout': '👋 Déconnexion',
+        'page_access': '📄 Accès à la page',
+        'access_catalog': '📚 Accès au catalogue',
+        'click_product': '🛍️ Clic produit',
+        'add_to_cart': '🛒 Ajout au panier',
+        'download_pdf': '📥 Téléchargement PDF'
+      };
+      return labels[action] || capitalizeFirst(action);
+    }
+
+    /**
+     * Handle logout
+     */
+    function handleLogout() {
+      // Log logout event
+      if (auditLogger) {
+        auditLogger.log('logout', 'admin-portal');
+      }
+
+      console.log('👋 Logging out...');
+
+      // Clear session storage
+      sessionStorage.clear();
+
+      // Show message
+      showNotAuthorized('Vous avez été déconnecté');
+
+      // Redirect to login after delay
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2000);
+    }
+
+    /**
+     * Show not authorized screen
+     */
+    function showNotAuthorized(message = 'Authentification requise') {
+      const container = document.querySelector('.container');
+      container.innerHTML = `
+        <div class="not-authorized">
+          <h2>🔒 Accès Refusé</h2>
+          <p>${message}</p>
+          <p style="color: #999; font-size: 13px;">Vous allez être redirigé vers la page de connexion...</p>
+        </div>
+      `;
+
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 3000);
+    }
+
+    /**
+     * Helper: capitalize first letter
+     */
+    function capitalizeFirst(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    // Auto-refresh audit logs every 5 seconds
+    setInterval(() => {
+      if (currentUser) {
+        displayAuditLogs();
+      }
+    }, 5000);
+
+    // Prevent back to login
+    window.addEventListener('popstate', (e) => {
+      if (!sessionStorage.getItem('sylvins_auth_token')) {
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
 </html>

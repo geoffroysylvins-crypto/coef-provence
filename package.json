@@ -1,24 +1,51 @@
 {
   "name": "marta-github-n8n-mcp",
-  "version": "1.0.0",
-  "description": "Calculateur interactif pour les vins de Provence Sylvins.",
+  "version": "2.0.0",
+  "description": "Portail Sylvins: Agrégateur de catalogues vins de Provence avec authentification et audit.",
   "main": "generate-catalogs.js",
   "scripts": {
+    "generate": "node generate-all-catalogs-v4.js",
+    "generate:users": "node generate-users.js",
+    "generate:users:test": "node generate-test-users.js",
+    "generate:clients": "node generate-clients-from-notion.js",
+    "generate:all": "npm run generate:users && npm run generate:clients && npm run generate",
+    "generate:from-notion": "node generate-from-notion.js",
+    "sync:audit": "node sync-audit-logs.js",
+    "deploy": "bash ./deploy.sh",
+    "deploy:github": "DEPLOY_TARGET=github bash ./deploy.sh",
+    "deploy:hostinger": "DEPLOY_TARGET=hostinger bash ./deploy.sh",
+    "serve": "python3 -m http.server 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/geoffroysylvins-crypto/coef-provence.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "wines",
+    "provence",
+    "e-commerce",
+    "static-site-generator",
+    "notion-api"
+  ],
+  "author": "Geoffrey Sylvins",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "bugs": {
     "url": "https://github.com/geoffroysylvins-crypto/coef-provence/issues"
   },
   "homepage": "https://github.com/geoffroysylvins-crypto/coef-provence#readme",
   "dependencies": {
-    "csv-parse": "^6.2.1"
+    "@notionhq/client": "^2.2.15",
+    "bcryptjs": "^2.4.3",
+    "csv-parse": "^6.2.1",
+    "jsonwebtoken": "^9.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
   }
 }

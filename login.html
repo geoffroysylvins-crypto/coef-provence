@@ -1,3 +1,468 @@
-<!DOCTYPE html><html><head><title>Login</title></head>
-<body><h1>🔐 Login</h1></body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - Sylvins</title>
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcryptjs.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #c33;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .loading::after {
+      content: '⏳';
+      display: inline-block;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .demo-credentials {
+      background: #f0f4ff;
+      padding: 12px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #555;
+      border-left: 3px solid #667eea;
+    }
+
+    .demo-credentials strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .demo-credentials code {
+      background: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>🔐 Sylvins</h1>
+    <p class="subtitle">Portail Administratif</p>
+
+    <div class="error-message" id="error-message"></div>
+    <div class="loading" id="loading"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="exemple@sylvins.fr"
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="••••••••"
+          required
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="btn-login" id="btn-submit">
+        Connexion
+      </button>
+    </form>
+
+    <div class="demo-credentials">
+      <strong>Utilisateurs test:</strong>
+      <div>Email: <code>geoffroy.sylvins@gmail.com</code></div>
+      <div>Mot de passe: Voir vos identifiants Notion</div>
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    let USERS_DATABASE = {};
+    let isLoading = false;
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('📄 Login page loading...');
+      loadUsers();
+      setupEventListeners();
+    });
+
+    /**
+     * Load users from users.json
+     */
+    async function loadUsers() {
+      try {
+        console.log('👥 Fetching users from users.json...');
+        const response = await fetch('users.json');
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        USERS_DATABASE = await response.json();
+        console.log(`✅ Loaded ${Object.keys(USERS_DATABASE).length} users`);
+
+        // Log available users (emails only, no passwords)
+        const userEmails = Object.keys(USERS_DATABASE);
+        console.log('📋 Available users:', userEmails);
+
+      } catch (error) {
+        console.error('❌ Failed to load users:', error);
+        showError('⚠️ Impossible de charger les utilisateurs. Vérifiez que users.json existe.');
+      }
+    }
+
+    /**
+     * Setup form event listeners
+     */
+    function setupEventListeners() {
+      const form = document.getElementById('login-form');
+      form.addEventListener('submit', handleLogin);
+
+      // Enter key in password field
+      document.getElementById('password').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          form.dispatchEvent(new Event('submit'));
+        }
+      });
+    }
+
+    /**
+     * Handle login form submission
+     */
+    async function handleLogin(event) {
+      event.preventDefault();
+
+      if (isLoading) return;
+      isLoading = true;
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      showLoading('Vérification des identifiants...');
+      clearError();
+
+      try {
+        // Validate email format
+        if (!email || !email.includes('@')) {
+          showError('❌ Email invalide');
+          return;
+        }
+
+        if (!password || password.length < 6) {
+          showError('❌ Mot de passe requis');
+          return;
+        }
+
+        // Simulate network delay for security
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Find user
+        const user = USERS_DATABASE[email];
+        if (!user) {
+          showError('❌ Email ou mot de passe incorrect');
+          return;
+        }
+
+        // Verify password hash with bcryptjs
+        console.log('🔐 Verifying password hash...');
+        const passwordValid = await bcryptjs.compare(password, user.password_hash);
+
+        if (!passwordValid) {
+          showError('❌ Email ou mot de passe incorrect');
+          return;
+        }
+
+        // Password is valid!
+        console.log('✅ Password verified for:', email);
+
+        // Generate JWT-like token
+        const token = generateJWT({
+          email,
+          name: user.name,
+          permissions: user.permissions,
+          iat: Math.floor(Date.now() / 1000),
+          exp: Math.floor(Date.now() / 1000) + (24 * 3600) // 24 hours
+        });
+
+        // Store authentication data
+        sessionStorage.setItem('sylvins_auth_token', token);
+        sessionStorage.setItem('sylvins_user_email', email);
+        sessionStorage.setItem('sylvins_user_name', user.name);
+        sessionStorage.setItem('sylvins_user_permissions', JSON.stringify(user.permissions));
+
+        // Log audit trail
+        logAuditEvent('login', 'portal', email, {
+          ip: 'client-side',
+          userAgent: navigator.userAgent
+        });
+
+        console.log('✅ Login successful for:', email);
+        showLoading('Redirection...');
+
+        // Redirect to admin dashboard
+        setTimeout(() => {
+          window.location.href = 'index-admin.html';
+        }, 300);
+
+      } catch (error) {
+        console.error('❌ Login error:', error);
+        showError('❌ Erreur lors de la connexion. Réessayez.');
+      } finally {
+        isLoading = false;
+        hideLoading();
+      }
+    }
+
+    /**
+     * Generate JWT token
+     * Note: This is a client-side token for demo/localStorage purposes.
+     * Production should use a backend to sign tokens securely.
+     */
+    function generateJWT(payload) {
+      try {
+        // Header
+        const header = {
+          alg: 'HS256',
+          typ: 'JWT'
+        };
+
+        // Payload
+        const body = {
+          ...payload,
+          nbf: Math.floor(Date.now() / 1000)
+        };
+
+        // Simple base64url encoding
+        const headerEncoded = btoa(JSON.stringify(header))
+          .replace(/\+/g, '-')
+          .replace(/\//g, '_')
+          .replace(/=/g, '');
+
+        const bodyEncoded = btoa(JSON.stringify(body))
+          .replace(/\+/g, '-')
+          .replace(/\//g, '_')
+          .replace(/=/g, '');
+
+        // Signature (simplified - no real signing in this client-side version)
+        const signature = 'unsigned';
+
+        const token = `${headerEncoded}.${bodyEncoded}.${signature}`;
+        console.log('🔐 JWT token generated (client-side)');
+        return token;
+
+      } catch (error) {
+        console.error('JWT generation error:', error);
+        throw error;
+      }
+    }
+
+    /**
+     * Log audit event to localStorage
+     */
+    function logAuditEvent(action, resource, email, details = {}) {
+      try {
+        const logs = JSON.parse(localStorage.getItem('audit_logs') || '[]');
+
+        const entry = {
+          id: generateUUID(),
+          timestamp: new Date().toISOString(),
+          email: email,
+          action: action,
+          resource: resource,
+          details: JSON.stringify(details),
+          page: window.location.pathname,
+          userAgent: navigator.userAgent
+        };
+
+        logs.push(entry);
+        localStorage.setItem('audit_logs', JSON.stringify(logs));
+        console.log('📊 Audit log recorded:', entry.id);
+
+      } catch (error) {
+        console.warn('⚠️ Failed to log audit event:', error);
+      }
+    }
+
+    /**
+     * Generate UUID v4
+     */
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+
+    /**
+     * UI Helper functions
+     */
+    function showError(message) {
+      const errorEl = document.getElementById('error-message');
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+
+    function clearError() {
+      const errorEl = document.getElementById('error-message');
+      errorEl.textContent = '';
+      errorEl.classList.remove('show');
+    }
+
+    function showLoading(message) {
+      const loadingEl = document.getElementById('loading');
+      loadingEl.textContent = message || 'Chargement...';
+      loadingEl.classList.add('show');
+      document.getElementById('btn-submit').disabled = true;
+    }
+
+    function hideLoading() {
+      const loadingEl = document.getElementById('loading');
+      loadingEl.classList.remove('show');
+      document.getElementById('btn-submit').disabled = false;
+    }
+
+    // Security: Prevent autocomplete of password on some browsers
+    window.addEventListener('beforeunload', () => {
+      document.getElementById('password').value = '';
+    });
+  </script>
+</body>
 </html>
