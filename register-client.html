@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S'inscrire - Sylvins</title>
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcryptjs.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .register-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="tel"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    input[type="email"]:focus,
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .password-strength {
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: none;
+    }
+
+    .password-strength.show {
+      display: block;
+    }
+
+    .password-strength.weak {
+      background: #f8d7da;
+      color: #721c24;
+      border-left: 3px solid #c33;
+    }
+
+    .password-strength.medium {
+      background: #fff3cd;
+      color: #856404;
+      border-left: 3px solid #ffc107;
+    }
+
+    .password-strength.strong {
+      background: #d4edda;
+      color: #155724;
+      border-left: 3px solid #28a745;
+    }
+
+    .password-bar {
+      height: 4px;
+      border-radius: 2px;
+      margin-bottom: 5px;
+      background: #ddd;
+      overflow: hidden;
+    }
+
+    .password-bar-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .btn-register {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-register:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #c33;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #28a745;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .loading::after {
+      content: '⏳';
+      display: inline-block;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .terms {
+      font-size: 12px;
+      color: #999;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h1>🍇 Sylvins</h1>
+    <p class="subtitle">Rejoignez notre communauté</p>
+
+    <div class="error-message" id="error-message"></div>
+    <div class="success-message" id="success-message"></div>
+    <div class="loading" id="loading"></div>
+
+    <form id="register-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstname">Prénom</label>
+          <input
+            type="text"
+            id="firstname"
+            name="firstname"
+            placeholder="Jean"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label for="lastname">Nom</label>
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            placeholder="Dupont"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="vous@exemple.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Téléphone (optionnel)</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          placeholder="+33 6 12 34 56 78"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="address">Adresse (optionnel)</label>
+        <input
+          type="text"
+          id="address"
+          name="address"
+          placeholder="123 Rue de la Paix, 83000 Toulon"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type de client</label>
+        <select id="type" name="type" required>
+          <option value="">-- Choisir --</option>
+          <option value="particulier">Particulier</option>
+          <option value="entreprise">Entreprise</option>
+          <option value="association">Association</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="••••••••"
+          required
+          minlength="8"
+        >
+        <div class="password-strength" id="password-strength">
+          <div class="password-bar">
+            <div class="password-bar-fill" id="password-bar-fill"></div>
+          </div>
+          <span id="password-strength-text">-</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password-confirm">Confirmer le mot de passe</label>
+        <input
+          type="password"
+          id="password-confirm"
+          name="password-confirm"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn-register" id="btn-submit">
+        S'inscrire
+      </button>
+    </form>
+
+    <div class="login-link">
+      Déjà inscrit? <a href="login.html">Connectez-vous</a>
+    </div>
+
+    <div class="terms">
+      <strong>📋 En vous inscrivant:</strong><br>
+      Vous acceptez nos conditions d'utilisation et notre politique de confidentialité.
+      Vos données seront utilisées pour gérer votre compte et vous envoyer des mises à jour produits.
+    </div>
+  </div>
+
+  <script>
+    let isSubmitting = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('📄 Registration page loading...');
+      setupEventListeners();
+    });
+
+    /**
+     * Setup form event listeners
+     */
+    function setupEventListeners() {
+      const form = document.getElementById('register-form');
+      form.addEventListener('submit', handleRegister);
+
+      const passwordInput = document.getElementById('password');
+      passwordInput.addEventListener('input', checkPasswordStrength);
+    }
+
+    /**
+     * Check password strength
+     */
+    function checkPasswordStrength() {
+      const password = document.getElementById('password').value;
+      const strengthEl = document.getElementById('password-strength');
+      const strengthText = document.getElementById('password-strength-text');
+      const barFill = document.getElementById('password-bar-fill');
+
+      if (!password) {
+        strengthEl.classList.remove('show');
+        return;
+      }
+
+      strengthEl.classList.add('show');
+
+      let strength = 0;
+
+      // Length
+      if (password.length >= 8) strength++;
+      if (password.length >= 12) strength++;
+
+      // Uppercase
+      if (/[A-Z]/.test(password)) strength++;
+
+      // Lowercase
+      if (/[a-z]/.test(password)) strength++;
+
+      // Numbers
+      if (/[0-9]/.test(password)) strength++;
+
+      // Special chars
+      if (/[!@#$%^&*]/.test(password)) strength++;
+
+      // Update UI
+      let level = 'weak';
+      let percent = (strength / 6) * 100;
+
+      if (strength >= 4) {
+        level = 'strong';
+      } else if (strength >= 2) {
+        level = 'medium';
+      }
+
+      strengthEl.className = `password-strength show ${level}`;
+      barFill.style.width = percent + '%';
+      barFill.style.background = level === 'strong' ? '#28a745' : level === 'medium' ? '#ffc107' : '#dc3545';
+
+      const labels = {
+        'weak': '❌ Faible',
+        'medium': '⚠️ Moyen',
+        'strong': '✅ Fort'
+      };
+
+      strengthText.textContent = labels[level];
+    }
+
+    /**
+     * Handle registration form submission
+     */
+    async function handleRegister(event) {
+      event.preventDefault();
+
+      if (isSubmitting) return;
+      isSubmitting = true;
+
+      const firstname = document.getElementById('firstname').value.trim();
+      const lastname = document.getElementById('lastname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const type = document.getElementById('type').value;
+      const password = document.getElementById('password').value;
+      const passwordConfirm = document.getElementById('password-confirm').value;
+
+      showLoading('Inscription en cours...');
+      clearMessages();
+
+      try {
+        // Validation
+        if (!firstname || !lastname) {
+          showError('❌ Prénom et nom requis');
+          return;
+        }
+
+        if (!email || !email.includes('@')) {
+          showError('❌ Email invalide');
+          return;
+        }
+
+        if (password.length < 8) {
+          showError('❌ Le mot de passe doit contenir au moins 8 caractères');
+          return;
+        }
+
+        if (password !== passwordConfirm) {
+          showError('❌ Les mots de passe ne correspondent pas');
+          return;
+        }
+
+        if (!type) {
+          showError('❌ Veuillez choisir un type de client');
+          return;
+        }
+
+        // Hash password
+        console.log('🔐 Hashing password...');
+        const passwordHash = await bcryptjs.hash(password, 10);
+
+        // Prepare registration data
+        const registrationData = {
+          email,
+          name: `${firstname} ${lastname}`,
+          phone: phone || null,
+          address: address || null,
+          type,
+          password_hash: passwordHash,
+          created_at: new Date().toISOString(),
+          active: true
+        };
+
+        // Send to API endpoint
+        console.log('📤 Sending registration request...');
+        const response = await fetch('/api/register-client', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(registrationData)
+        });
+
+        if (!response.ok) {
+          if (response.status === 409) {
+            showError('❌ Un compte avec cet email existe déjà');
+          } else if (response.status === 400) {
+            showError('❌ Données invalides. Vérifiez votre saisie.');
+          } else {
+            showError('❌ Erreur lors de l\'inscription. Réessayez.');
+          }
+          return;
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+          console.log('✅ Registration successful');
+          showSuccess(`✅ Inscription réussie!<br><br>Un email de confirmation a été envoyé à ${email}.<br>Vérifiez votre email pour activer votre compte.`);
+
+          // Clear form
+          document.getElementById('register-form').reset();
+
+          // Redirect after 3 seconds
+          setTimeout(() => {
+            window.location.href = 'clients-portal.html?email=' + encodeURIComponent(email);
+          }, 3000);
+        } else {
+          showError('❌ ' + (result.message || 'Erreur lors de l\'inscription'));
+        }
+
+      } catch (error) {
+        console.error('❌ Registration error:', error);
+        showError('❌ Erreur réseau. Vérifiez votre connexion et réessayez.');
+      } finally {
+        isSubmitting = false;
+        hideLoading();
+      }
+    }
+
+    /**
+     * UI Helper functions
+     */
+    function showError(message) {
+      const errorEl = document.getElementById('error-message');
+      errorEl.innerHTML = message;
+      errorEl.classList.add('show');
+    }
+
+    function showSuccess(message) {
+      const successEl = document.getElementById('success-message');
+      successEl.innerHTML = message;
+      successEl.classList.add('show');
+    }
+
+    function clearMessages() {
+      document.getElementById('error-message').classList.remove('show');
+      document.getElementById('success-message').classList.remove('show');
+    }
+
+    function showLoading(message) {
+      const loadingEl = document.getElementById('loading');
+      loadingEl.textContent = message || 'Chargement...';
+      loadingEl.classList.add('show');
+      document.getElementById('btn-submit').disabled = true;
+    }
+
+    function hideLoading() {
+      const loadingEl = document.getElementById('loading');
+      loadingEl.classList.remove('show');
+      document.getElementById('btn-submit').disabled = false;
+    }
+  </script>
+</body>
+</html>
